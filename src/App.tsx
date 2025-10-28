@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import Footer from './components/Footer';
-import FloatingCTA from './components/FloatingCTA';
 import ScrollToTop from './components/ScrollToTop';
 
-// Páginas existentes
+// Páginas essenciais
 import Home from './pages/Home';
 import Plans from './pages/Plans';
 import About from './pages/About';
@@ -19,6 +17,10 @@ import PoliticaPrivacidade from './pages/PoliticaPrivacidade';
 import WhatsappRedirect from './pages/WhatsappRedirect';
 import PowerForm from './pages/PowerForm';
 
+// Lazy load para seções secundárias abaixo da dobra
+const Footer = React.lazy(() => import('./components/Footer'));
+const FloatingCTA = React.lazy(() => import('./components/FloatingCTA'));
+
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -26,7 +28,6 @@ function App() {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1000);
-
     return () => clearTimeout(timer);
   }, []);
 
@@ -43,6 +44,7 @@ function App() {
       <div className="min-h-screen bg-white">
         <ScrollToTop />
         <Header />
+
         <main>
           <Routes>
             {/* Páginas principais */}
@@ -71,9 +73,7 @@ function App() {
                     <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto text-gray-100">
                       Ops! A página que você está tentando acessar não existe ou foi removida.
                     </p>
-                    <p className="mt-2 text-gray-200">
-                      Selecione outra página para continuar navegando:
-                    </p>
+                    <p className="mt-2 text-gray-200">Selecione outra página para continuar navegando:</p>
 
                     <div className="mt-8 flex flex-wrap justify-center gap-4">
                       <a
@@ -101,8 +101,12 @@ function App() {
             />
           </Routes>
         </main>
-        <Footer />
-        <FloatingCTA />
+
+        {/* Footer e FloatingCTA lazy loaded */}
+        <Suspense fallback={<div className="min-h-32"></div>}>
+          <Footer />
+          <FloatingCTA />
+        </Suspense>
       </div>
     </Router>
   );
