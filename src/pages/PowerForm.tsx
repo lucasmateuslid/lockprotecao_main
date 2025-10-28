@@ -16,7 +16,7 @@ const PowerForm: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Faixa azul topo */}
-      <section className="bg-gradient-to-b from-blue-700 to-blue-500 text-white py-20 shadow-lg">
+      <section className="bg-gradient-primary from-blue-700 to-blue-500 text-white pt-32 pb-24 shadow-lg">
         <div className="container text-center">
           <h1 className="text-5xl md:text-6xl font-bold font-montserrat">
             Simule sua <span className="text-red-600">Proteção Veicular</span>

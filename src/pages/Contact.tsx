@@ -314,7 +314,7 @@ const Contact: React.FC = () => {
                   href="https://maps.app.goo.gl/k4jirZGmuRBoj2Ci6"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-outline w-full text-center block"
+                  className="btn-accent w-full text-center block"
                 >
                   Ver no Google Maps
                 </a>
