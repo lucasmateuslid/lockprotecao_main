@@ -209,7 +209,7 @@ const Testimonials: React.FC = () => {
               <div className="text-gray-600">Clientes Satisfeitos</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-montserrat font-bold text-primary mb-2">50K+</div>
+              <div className="text-3xl font-montserrat font-bold text-primary mb-2">300+</div>
               <div className="text-gray-600">Depoimentos Positivos</div>
             </div>
           </div>

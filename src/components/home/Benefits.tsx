@@ -1,5 +1,6 @@
 import React from 'react';
 import { Shield, Clock, MapPin, Phone, Car, Wrench, Users, Award, ScanEye } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Benefits: React.FC = () => {
   const benefits = [
@@ -100,12 +101,13 @@ const Benefits: React.FC = () => {
               Faça sua cotação agora mesmo e descubra como é fácil ter a melhor proteção veicular do mercado.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="btn-accent bg-accent hover:bg-red-600">
+
+              <Link to="/pwr-cotacao" className="btn-accent bg-accent hover:bg-red-600">
                 Fazer Cotação Grátis
-              </button>
-              <button className="btn-outline border-white text-white hover:bg-white hover:text-primary bg-white/30 backdrop-blur-sm">
+              </Link>
+              <Link to="/whatsapp" className="btn-outline border-white text-white hover:bg-white hover:text-primary bg-white/30 backdrop-blur-sm">
                 Falar com Especialista
-              </button>
+              </Link>
             </div>
           </div>
         </div>

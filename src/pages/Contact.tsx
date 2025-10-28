@@ -20,10 +20,56 @@ const Contact: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const numbers = {
+      billing: ['5584986639591', '5584987756889', '5584981677829'],
+      quote: ['558440420869'],
+      support: ['5584981331131', '5584981761133'],
+      claim: ['558481161997'],
+      other: ['558440420869'],
+      suggestion: ['558440420869']
+    };
+
+    // pega a lista de números do assunto selecionado
+    const selectedList = numbers[formData.subject as keyof typeof numbers] || numbers.other;
+
+    // escolhe um número aleatório se houver mais de um
+    const phone = selectedList[Math.floor(Math.random() * selectedList.length)];
+
+    // cria a mensagem formatada
+    const subjectText = (() => {
+      switch (formData.subject) {
+        case 'billing': return 'Questões Financeiras';
+        case 'quote': return 'Solicitar Cotação';
+        case 'support': return 'Suporte Técnico';
+        case 'claim': return 'Acionar Proteção';
+        case 'suggestion': return 'Sugestão';
+        default: return 'Outros';
+      }
+    })();
+
+    const message = `
+      *Nova Mensagem via Site - Lock Proteção*
+      --------------------------------------
+      *Nome:* ${formData.name}
+      *E-mail:* ${formData.email}
+      *Telefone:* ${formData.phone}
+      *Assunto:* ${subjectText}
+      *Mensagem:* 
+      ${formData.message}
+      --------------------------------------
+      Mensagem enviada pelo site 🌐
+      `;
+
+    // abre o WhatsApp com a mensagem
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+
+    // limpa formulário e mostra mensagem de sucesso
     setTimeout(() => {
       setIsSubmitted(true);
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-    }, 1000);
+    }, 800);
   };
 
   const openWhatsApp = () => {
@@ -171,7 +217,7 @@ const Contact: React.FC = () => {
                         value={formData.phone}
                         onChange={handleInputChange}
                         className="form-input"
-                        placeholder="(11) 99999-9999"
+                        placeholder="(84) 99999-9999"
                         required
                       />
                     </div>
@@ -228,7 +274,7 @@ const Contact: React.FC = () => {
                   </p>
                   <button
                     onClick={() => setIsSubmitted(false)}
-                    className="btn-outline"
+                    className="btn-accent"
                   >
                     Enviar Nova Mensagem
                   </button>

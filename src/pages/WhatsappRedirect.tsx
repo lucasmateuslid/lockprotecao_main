@@ -3,8 +3,7 @@ import { Loader2 } from 'lucide-react';
 
 const WhatsappRedirect = () => {
   const whatsappUrl =
-    'https://wa.me/558440420869?text=Ol%C3%A1!%20Gostaria%20de%20conhecer%20os%20planos%20de%20prote%C3%A7%C3%A3o%20veicular%20da%20Lock%20Prote%C3%A7%C3%A3o.';
-
+      'https://wa.me/558440420869?text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20uma%20simula%C3%A7%C3%A3o%20da%20prote%C3%A7%C3%A3o%20para%20o%20meu%20ve%C3%ADculo.'
   useEffect(() => {
     const timer = setTimeout(() => {
       window.location.href = whatsappUrl;
