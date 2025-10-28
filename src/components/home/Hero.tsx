@@ -108,8 +108,8 @@ const Hero: React.FC = () => {
                       <CheckCircle className="h-6 w-6 text-green-600" />
                     </div>
                     <div>
-                      <p className="font-montserrat font-semibold text-gray-800">+1 Veículo</p>
-                      <p className="text-sm text-gray-600">Protegido</p>
+                      <p className="font-montserrat font-semibold text-gray-800">Nossa</p>
+                      <p className="text-sm text-gray-600">Proteção</p>
                     </div>
                   </div>
                 </div>
@@ -118,8 +118,8 @@ const Hero: React.FC = () => {
                   <div className="flex items-center space-x-3">
                     <Shield className="h-8 w-8 text-white" />
                     <div>
-                      <p className="font-montserrat font-bold text-white">100%</p>
-                      <p className="text-sm text-gray-100">Protegido</p>
+                      <p className="font-montserrat font-bold text-white">Antes / Depois </p>
+                      <p className="text-sm text-gray-100">100% Protegidos</p>
                     </div>
                   </div>
                 </div>
