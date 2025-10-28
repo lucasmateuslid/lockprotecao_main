@@ -5,13 +5,13 @@ const Benefits: React.FC = () => {
   const benefits = [
     {
       icon: Shield,
-      title: 'Proteção Colisão',
-      description: 'Cobertura para colisões, mantendo seu veiculo protegido de qualquer evento.',
+      title: 'Proteção Completa',
+      description: 'Cobertura para colisões, Furtos, Roubos e Danos a terceiros. Para sua tranquilidade em qualquer viagem',
       color: 'bg-blue-500'
     },
     {
       icon: Clock,
-      title: 'Atendimento 24/7',
+      title: 'Atendimento 24h',
       description: 'Suporte disponível 24 horas por dia, 7 dias por semana, em qualquer lugar',
       color: 'bg-green-500'
     },
@@ -22,9 +22,9 @@ const Benefits: React.FC = () => {
       color: 'bg-purple-500'
     },
     {
-      icon: Phone,
-      title: 'Fechamento Rápido',
-      description: 'Tenha sua proteção ativa em menos de 1 hora',
+      icon: Shield,
+      title: 'Perda Total',
+      description: 'Seu carro deu PT? Não fique preocupado! Aqui na Lock Proteção, cuidamos de tudo para você.',
       color: 'bg-orange-500'
     },
     {
@@ -47,7 +47,7 @@ const Benefits: React.FC = () => {
     },
     {
       icon: ScanEye,
-      title: 'Monitoramento',
+      title: 'Monitoramento Inteligente',
       description: 'Rastreamento em tempo real, válido em todo território nacional',
       color: 'bg-red-500'
     }
@@ -62,8 +62,8 @@ const Benefits: React.FC = () => {
             Por que escolher a <span className="text-accent">Lock Proteção</span>?
           </h2>
           <p className="text-lg-responsive text-gray-600 max-w-3xl mx-auto">
-            Oferecemos a melhor proteção veicular do mercado com benefícios exclusivos 
-            e atendimento diferenciado para garantir sua total tranquilidade.
+            Com a Lock Proteção, você tem benefícios exclusivos, cobertura completa e atendimento personalizado, 
+            tudo pensado para que você nunca fique desamparado. Proteja o que é seu com quem entende do assunto.
           </p>
         </div>
 
@@ -103,7 +103,7 @@ const Benefits: React.FC = () => {
               <button className="btn-accent bg-accent hover:bg-red-600">
                 Fazer Cotação Grátis
               </button>
-              <button className="btn-outline border-white text-white hover:bg-white hover:text-primary">
+              <button className="btn-outline border-white text-white hover:bg-white hover:text-primary bg-white/30 backdrop-blur-sm">
                 Falar com Especialista
               </button>
             </div>

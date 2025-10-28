@@ -56,7 +56,7 @@ const CallToAction: React.FC = () => {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-12">
             <Link
-              to="/cotacao"
+              to="/pwr-cotacao"
               className="bg-accent hover:bg-red-600 text-white font-montserrat font-bold text-lg px-10 py-4 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-2xl inline-flex items-center justify-center space-x-3"
             >
               <Shield className="h-6 w-6" />

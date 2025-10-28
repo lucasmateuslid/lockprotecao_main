@@ -11,9 +11,9 @@ const Home: React.FC = () => {
     <div>
       <Hero />
       <Stats />
+      <Testimonials />
       <Benefits />
       <FeaturedPlans />
-      <Testimonials />
       <CallToAction />
     </div>
   );

@@ -156,7 +156,12 @@ body {
 }
 
 .btn-outline {
-  @apply border-2 border-primary text-primary hover:bg-primary hover:text-white font-montserrat font-semibold py-3 px-8 rounded-lg transition-all duration-300;
+  @apply border-white text-white hover:bg-white hover:text-primary font-montserrat font-semibold py-3 px-8 rounded-lg transition-all duration-300;
+}
+
+
+.btn-outline2 {
+  @apply border-2 border-primary text-primary hover:bg-primary hover:text-white font-montserrat font-semibold py-3 px-8 rounded-lg  transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl;
 }
 
 /* Card styles */

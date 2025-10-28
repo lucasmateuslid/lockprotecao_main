@@ -39,7 +39,7 @@ const Hero: React.FC = () => {
       <div className="container relative z-9">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-screen py-16">
           {/* Content */}
-          <div className="text-center lg:text-left space-y-5 animate-slide-in-left">
+          <div className="text-center lg:text-left space-y-5 animate-slide-in-left my-12">
             <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
               <Shield className="h-5 w-5 text-white" />
               <span className="text-white font-montserrat font-medium">Proteção Garantida 24h</span>

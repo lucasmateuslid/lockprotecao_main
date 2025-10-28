@@ -58,12 +58,14 @@ const FeaturedPlans: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="heading-xl text-primary mb-4">
-            Planos por benefícios — escolha o ideal para <span className="text-accent">seu veículo</span>
+            Planos por benefícios — encontre o ideal para <span className="text-accent">seu veículo</span>
           </h2>
           <p className="text-lg-responsive text-gray-600 max-w-3xl mx-auto">
-            Sem valores exibidos — focamos nos benefícios para você comparar rápido e escolher o que mais importa.
+            Compare rapidamente os benefícios de cada plano e descubra como proteger seu veículo com tranquilidade. 
+            Fale com a gente e escolha o que realmente importa para você!
           </p>
         </div>
+
 
         {/* Plans Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
@@ -108,7 +110,7 @@ const FeaturedPlans: React.FC = () => {
 
               {/* CTA Button */}
               <Link
-                to="/cotacao"
+                to="/pwr-cotacao"
                 className={`${plan.buttonClass} w-full text-center block mb-3`}
               >
                 Fazer Simulação
@@ -133,10 +135,10 @@ const FeaturedPlans: React.FC = () => {
               Nossos especialistas ajudam você a comparar benefícios e decidir o melhor plano sem se preocupar com valores agora.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/cotacao" className="btn-accent">
+              <Link to="/pwr-cotacao" className="btn-accent">
                 Fazer Simulação
               </Link>
-              <a href="tel:+558440420869" className="btn-outline">
+              <a href="tel:+558440420869" className="btn-outline2">
                 Falar com Especialista
               </a>
             </div>

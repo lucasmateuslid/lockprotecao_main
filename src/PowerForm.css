@@ -1,0 +1,73 @@
+/* src/pages/PowerForm.css */
+.power-form-page {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  background: #f9f9f9;
+  padding: 2rem;
+}
+
+.form-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+h1 {
+  color: #1F2937;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  text-align: center;
+  color: #6B7280;
+  margin-bottom: 2rem;
+}
+
+.pwr-form .pwrcrmInputCont {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.pwr-form label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.pwr-form input,
+.pwr-form select {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #D1D5DB;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.pwr-form input:focus,
+.pwr-form select:focus {
+  border-color: #6366F1;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #6366F1;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.submit-btn:hover {
+  background: #4F46E5;
+}
