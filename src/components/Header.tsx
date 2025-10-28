@@ -22,10 +22,9 @@ const Header: React.FC = () => {
 
   const navItems = [
     { name: 'Home', path: '/' },
-    { name: 'Planos', path: '/planos' },
-    { name: 'Sobre', path: '/sobre' },
-    { name: 'Cotação', path: '/cotacao' },
+    { name: 'Cotação', path: '/pwr-cotacao' },
     { name: 'Contato', path: '/contato' },
+    { name: 'Sobre', path: '/sobre' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -84,7 +83,7 @@ const Header: React.FC = () => {
               <span>0800 591 8701</span>
             </a>
             <Link
-              to="/cotacao"
+              to="/pwr-cotacao"
               className="btn-accent"
             >
               Cotar Agora
@@ -131,7 +130,7 @@ const Header: React.FC = () => {
                   <span> 0800 591 8701</span>
                 </a>
                 <Link
-                  to="/cotacao"
+                  to="/pwr-cotacao"
                   className="btn-accent w-full text-center block"
                 >
                   Cotar Agora
