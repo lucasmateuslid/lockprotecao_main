@@ -142,13 +142,7 @@ const Testimonials: React.FC = () => {
 
               {/* Author Info */}
               <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-                <img
-                  src={testimonials[currentTestimonial].avatar}
-                  alt={testimonials[currentTestimonial].name}
-                  className="w-16 h-16 rounded-full object-cover shadow-lg"
-                  loading="lazy"
-                />
-                <div className="text-center sm:text-left">
+                <div className="text-center sm:text-center">
                   <h4 className="font-montserrat font-semibold text-lg text-text">
                     {testimonials[currentTestimonial].name}
                   </h4>

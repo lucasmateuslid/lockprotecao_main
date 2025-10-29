@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Shield, Phone, CheckCircle } from 'lucide-react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Shield, Phone, CheckCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
-// Lista de imagens (JPEG + WebP)
 const images = [
-  { jpeg: "./src/assets/imgs/colisions/civic_01.jpeg", webp: "./src/assets/imgs/colisions/civic_01.webp" },
-  { jpeg: "./src/assets/imgs/colisions/civic_02.jpeg", webp: "./src/assets/imgs/colisions/civic_02.webp" },
-  { jpeg: "./src/assets/imgs/colisions/civic_03.jpeg", webp: "./src/assets/imgs/colisions/civic_03.webp" },
-  { jpeg: "./src/assets/imgs/colisions/civic_04.jpeg", webp: "./src/assets/imgs/colisions/civic_04.webp" },
-  { jpeg: "./src/assets/imgs/colisions/cobalt_01.jpeg", webp: "./src/assets/imgs/colisions/cobalt_01.webp" },
-  { jpeg: "./src/assets/imgs/colisions/cobalt_02.jpeg", webp: "./src/assets/imgs/colisions/cobalt_02.webp" },
-  { jpeg: "./src/assets/imgs/colisions/cobalt_03.jpeg", webp: "./src/assets/imgs/colisions/cobalt_03.webp" },
+  { jpeg: "./public/assets/imgs/colisions/civic_01.jpeg", webp: "./public/assets/imgs/colisions/civic_01.webp" },
+  { jpeg: "./public/assets/imgs/colisions/civic_02.jpeg", webp: "./public/assets/imgs/colisions/civic_02.webp" },
+  { jpeg: "./public/assets/imgs/colisions/civic_03.jpeg", webp: "./public/assets/imgs/colisions/civic_03.webp" },
+  { jpeg: "./public/assets/imgs/colisions/civic_04.jpeg", webp: "./public/assets/imgs/colisions/civic_04.webp" },
+  { jpeg: "./public/assets/imgs/colisions/cobalt_01.jpeg", webp: "./public/assets/imgs/colisions/cobalt_01.webp" },
+  { jpeg: "./public/assets/imgs/colisions/cobalt_02.jpeg", webp: "./public/assets/imgs/colisions/cobalt_02.webp" },
+  { jpeg: "./public/assets/imgs/colisions/cobalt_03.jpeg", webp: "./public/assets/imgs/colisions/cobalt_03.webp" },
+  { jpeg: "./public/assets/imgs/colisions/kwid_01.jpeg", webp: "./public/assets/imgs/colisions/kwid_01.webp" },
+  { jpeg: "./public/assets/imgs/colisions/kwid_02.jpeg", webp: "./public/assets/imgs/colisions/kwid_02.webp" },
+  { jpeg: "./public/assets/imgs/colisions/kwid_03.jpeg", webp: "./public/assets/imgs/colisions/kwid_03.webp" },
+  { jpeg: "./public/assets/imgs/colisions/kwid_04.jpeg", webp: "./public/assets/imgs/colisions/kwid_04.webp" },
 ];
 
 const Hero: React.FC = () => {
@@ -19,11 +22,18 @@ const Hero: React.FC = () => {
   const [fade, setFade] = useState(false);
   const [showFloating, setShowFloating] = useState(false);
 
-  // Pré-carregar imagens WebP
+  // Pré-carregar apenas a primeira imagem (LCP otimizado)
   useEffect(() => {
-    images.forEach(({ webp }) => {
-      const img = new Image();
-      img.src = webp;
+    const firstImage = new Image();
+    firstImage.src = images[0].webp;
+  }, []);
+
+  // Pré-carregar restante das imagens
+  useEffect(() => {
+    images.forEach((img, i) => {
+      if (i === 0) return;
+      const preload = new Image();
+      preload.src = img.webp;
     });
   }, []);
 
@@ -32,11 +42,10 @@ const Hero: React.FC = () => {
     const timer = setInterval(() => {
       setFade(true);
       setTimeout(() => {
-        setIndex(prev => (prev + 1) % images.length);
+        setIndex((prev) => (prev + 1) % images.length);
         setFade(false);
-      }, 300);
-    }, 5000);
-
+      }, 500);
+    }, 35000);
     return () => clearInterval(timer);
   }, []);
 
@@ -60,7 +69,7 @@ const Hero: React.FC = () => {
 
       <div className="container relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-screen py-16">
-          {/* Conteúdo */}
+          {/* Content */}
           <div className="text-center lg:text-left space-y-5 my-12">
             <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
               <Shield className="h-5 w-5 text-white" />
@@ -77,7 +86,12 @@ const Hero: React.FC = () => {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {['Cobertura Nacional','Assistência 24/7','Rastreamento gratuito','Aprovação Rápida'].map((feature, idx) => (
+              {[
+                "Cobertura Nacional",
+                "Assistência 24/7",
+                "Rastreamento gratuito",
+                "Aprovação Rápida",
+              ].map((feature, idx) => (
                 <div key={idx} className="flex items-center space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
                   <span className="text-white font-raleway">{feature}</span>
@@ -86,11 +100,18 @@ const Hero: React.FC = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 pt-4">
-              <Link to="/whatsapp" className="btn-accent text-lg px-8 py-4 inline-flex items-center justify-center space-x-3 group">
+              <Link
+                to="/whatsapp"
+                className="btn-accent text-lg px-8 py-4 inline-flex items-center justify-center space-x-3 group"
+              >
                 <Shield className="h-6 w-6 group-hover:animate-pulse" />
                 <span>Fazer Cotação Grátis</span>
               </Link>
-              <a href="tel:+558440420869" className="btn-outline text-lg px-8 py-4 inline-flex items-center justify-center space-x-3 bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white hover:text-primary">
+
+              <a
+                href="tel:+558440420869"
+                className="btn-outline text-lg px-8 py-4 inline-flex items-center justify-center space-x-3 bg-white/10 backdrop-blur-sm  text-white hover:bg-white hover:text-primary"
+              >
                 <Phone className="h-6 w-6" />
                 <span>(84) 4042-0869</span>
               </a>
@@ -105,7 +126,9 @@ const Hero: React.FC = () => {
                 <img
                   src={images[index].jpeg}
                   alt="Carro protegido"
-                  className={`w-full h-96 object-cover rounded-2xl shadow-md transition-opacity duration-500 ease-in-out ${fade ? 'opacity-0' : 'opacity-100'}`}
+                  className={`w-full h-96 object-cover rounded-2xl shadow-md transition-opacity duration-500 ease-in-out ${
+                    fade ? "opacity-0" : "opacity-100"
+                  }`}
                   loading="eager"
                 />
               </picture>
@@ -113,10 +136,10 @@ const Hero: React.FC = () => {
               {/* Floating Cards */}
               {showFloating && (
                 <>
+                  {/* Card Nossa Proteção */}
                   <motion.div
-                    initial={{ opacity: 1, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: [1, 1.05, 1] }}
-                    transition={{ duration: 2, ease: "easeInOut", repeat: Infinity, repeatType: "loop" }}
+                    animate={{ scale: [1, 1.07, 1] }}
+                    transition={{ duration: 2, ease: "easeInOut", repeat: Infinity }}
                     className="absolute -top-6 -left-6 bg-white rounded-xl p-4 shadow-md"
                   >
                     <div className="flex items-center space-x-3">
@@ -130,17 +153,17 @@ const Hero: React.FC = () => {
                     </div>
                   </motion.div>
 
+                  {/* Card Antes / Depois */}
                   <motion.div
-                    initial={{ opacity: 1, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: [1, 1.05, 1] }}
-                    transition={{ duration: 2, ease: "easeInOut", repeat: Infinity, repeatType: "loop", delay: 0.3 }}
-                    className="absolute -bottom-1 -right-6 bg-accent rounded-xl p-4 shadow-md"
+                    animate={{ scale: [1, 1.07, 1] }}
+                    transition={{ duration: 2, ease: "easeInOut", repeat: Infinity }}
+                    className="absolute -bottom-6 -right-6 bg-red-600 rounded-xl p-4 shadow-md"
                   >
                     <div className="flex items-center space-x-3">
                       <Shield className="h-8 w-8 text-white" />
                       <div>
                         <p className="font-montserrat font-bold text-white">Antes / Depois </p>
-                        <p className="text-sm text-gray-100">100% Protegidos</p>
+                        <p className="text-sm text-white">100% Protegidos</p>
                       </div>
                     </div>
                   </motion.div>
