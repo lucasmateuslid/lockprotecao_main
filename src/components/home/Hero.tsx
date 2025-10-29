@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Shield, Phone, CheckCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const images = [
-  "https://automotivoshopping.com.br/wp-content/uploads/2019/11/melhores-carros-populares-ford-ka.jpg",
-  "https://cdn.motor1.com/images/mgl/AkB8vL/s3/fiat-mobi-2023.jpg",
-  "https://garagem360.com.br/wp-content/uploads/2024/01/1_carros-populares-de-2024-kwid.jpg"
+  "./src/assets/imgs/colisions/civic_01.jpeg",
+  "./src/assets/imgs/colisions/civic_02.jpeg",
+  "./src/assets/imgs/colisions/civic_03.jpeg",
+  "./src/assets/imgs/colisions/civic_04.jpeg",
+  "./src/assets/imgs/colisions/cobalt_01.jpeg",
+  "./src/assets/imgs/colisions/cobalt_02.jpeg",
+  "./src/assets/imgs/colisions/cobalt_03.jpeg",
+  "./src/assets/imgs/colisions/kwid_01.jpeg",
+  "./src/assets/imgs/colisions/kwid_02.jpeg",
+  "./src/assets/imgs/colisions/kwid_03.jpeg",
+  "./src/assets/imgs/colisions/kwid_04.jpeg"
 ];
 
 const Hero: React.FC = () => {
@@ -28,8 +37,8 @@ const Hero: React.FC = () => {
       setTimeout(() => {
         setIndex((prev) => (prev + 1) % images.length);
         setFade(false);
-      }, 500); // duração fade
-    }, 35000);
+      }, 300);
+    }, 5000);
 
     return () => clearInterval(timer);
   }, []);
@@ -45,14 +54,14 @@ const Hero: React.FC = () => {
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary via-blue-600 to-blue-800"></div>
 
-      {/* Background Pattern (simplificado blur para mobile) */}
+      {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-20 left-20 w-32 h-32 bg-white rounded-full blur-md"></div>
         <div className="absolute bottom-40 right-20 w-48 h-48 bg-white rounded-full blur-md"></div>
         <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-accent rounded-full blur-md"></div>
       </div>
 
-      <div className="container relative z-9">
+      <div className="container relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-screen py-16">
           {/* Content */}
           <div className="text-center lg:text-left space-y-5 my-12">
@@ -105,44 +114,54 @@ const Hero: React.FC = () => {
 
           {/* Visual/Image rotativa */}
           <div className="relative">
-            <div className="relative">
-              <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-8 shadow-lg">
-                <img
-                  src={images[index]}
-                  alt="Carro protegido"
-                  className={`w-full h-96 object-cover rounded-2xl shadow-md transition-opacity duration-500 ease-in-out ${
-                    fade ? 'opacity-0' : 'opacity-100'
-                  }`}
-                  loading="eager"
-                />
+            <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-8 shadow-lg relative">
+              <img
+                src={images[index]}
+                alt="Carro protegido"
+                className={`w-full h-96 object-cover rounded-2xl shadow-md transition-opacity duration-500 ease-in-out ${
+                  fade ? 'opacity-0' : 'opacity-100'
+                }`}
+                loading="eager"
+              />
 
-                {/* Floating Cards */}
-                {showFloating && (
-                  <>
-                    <div className="absolute -top-6 -left-6 bg-white rounded-xl p-4 shadow-md">
-                      <div className="flex items-center space-x-3">
-                        <div className="bg-green-100 p-2 rounded-full">
-                          <CheckCircle className="h-6 w-6 text-green-600" />
-                        </div>
-                        <div>
-                          <p className="font-montserrat font-semibold text-gray-800">Nossa</p>
-                          <p className="text-sm text-gray-600">Proteção</p>
-                        </div>
+              {/* Floating Cards */}
+              {showFloating && (
+                <>
+                  {/* Card Nossa Proteção */}
+                  <motion.div
+                    initial={{ opacity: 1, scale: 0.9 }}
+                    animate={{ opacity: 100, scale: [1, 1.05, 1] }}
+                    transition={{ duration: 2, ease: "easeInOut", repeat: Infinity, repeatType: "loop" }}
+                    className="absolute -top-6 -left-6 bg-white rounded-xl p-4 shadow-md"
+                  >
+                    <div className="flex items-center space-x-3">
+                      <div className="bg-green-100 p-2 rounded-full">
+                        <CheckCircle className="h-6 w-6 text-green-600" />
+                      </div>
+                      <div>
+                        <p className="font-montserrat font-semibold text-gray-800">Nossa</p>
+                        <p className="text-sm text-gray-600">Proteção</p>
                       </div>
                     </div>
+                  </motion.div>
 
-                    <div className="absolute -bottom-6 -right-6 bg-accent rounded-xl p-4 shadow-md">
-                      <div className="flex items-center space-x-3">
-                        <Shield className="h-8 w-8 text-white" />
-                        <div>
-                          <p className="font-montserrat font-bold text-white">Antes / Depois </p>
-                          <p className="text-sm text-gray-100">100% Protegidos</p>
-                        </div>
+                  {/* Card Antes / Depois */}
+                  <motion.div
+                    initial={{ opacity: 1, scale: 0.9 }}
+                    animate={{ opacity: 100, scale: [1, 1.05, 1] }}
+                    transition={{ duration: 2, ease: "easeInOut", repeat: Infinity, repeatType: "loop", delay: 0.3 }}
+                    className="absolute -bottom-1 -right-6 bg-accent rounded-xl p-4 shadow-md"
+                  >
+                    <div className="flex items-center space-x-3">
+                      <Shield className="h-8 w-8 text-white" />
+                      <div>
+                        <p className="font-montserrat font-bold text-white">Antes / Depois </p>
+                        <p className="text-sm text-gray-100">100% Protegidos</p>
                       </div>
                     </div>
-                  </>
-                )}
-              </div>
+                  </motion.div>
+                </>
+              )}
             </div>
           </div>
         </div>
