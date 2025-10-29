@@ -104,12 +104,12 @@ const Header: React.FC = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <nav className="md:hidden mt-4 bg-white rounded-lg shadow-lg p-4">
+        <nav className="md:hidden mt-4 bg-white rounded-lg shadow-lg p-4 flex flex-col space-y-2">
           {navItems.map((item) => (
             <Link
               key={item.name}
               to={item.path}
-              className={`font-montserrat font-medium py-2 px-3 rounded transition-colors duration-200 ${
+              className={`font-montserrat font-medium py-2 px-3 rounded transition-colors duration-200 text-center ${
                 isActive(item.path)
                   ? 'text-primary bg-blue-50'
                   : 'text-text hover:text-primary hover:bg-gray-50'
@@ -118,10 +118,10 @@ const Header: React.FC = () => {
               {item.name}
             </Link>
           ))}
-          <div className="border-t pt-3 mt-3">
+          <div className="border-t pt-3 mt-3 flex flex-col space-y-3">
             <a
               href="tel:08005918701"
-              className="flex items-center space-x-2 font-montserrat font-medium text-text hover:text-primary transition-colors duration-200 mb-3"
+              className="flex items-center justify-center space-x-2 font-montserrat font-medium text-text hover:text-primary transition-colors duration-200"
             >
               <Phone className="h-4 w-4" />
               <span>0800 591 8701</span>

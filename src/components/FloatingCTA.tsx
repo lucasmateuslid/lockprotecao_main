@@ -52,7 +52,7 @@ const FloatingCTA: React.FC = () => {
         mobileClicked.current = false;
       }, 5000);
     } else {
-        window.location.href = "/pwr-cotacao"
+
     }
   };
 
