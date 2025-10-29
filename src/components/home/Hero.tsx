@@ -3,18 +3,15 @@ import { Link } from 'react-router-dom';
 import { Shield, Phone, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+// Lista de imagens (JPEG + WebP)
 const images = [
-  "./src/assets/imgs/colisions/civic_01.jpeg",
-  "./src/assets/imgs/colisions/civic_02.jpeg",
-  "./src/assets/imgs/colisions/civic_03.jpeg",
-  "./src/assets/imgs/colisions/civic_04.jpeg",
-  "./src/assets/imgs/colisions/cobalt_01.jpeg",
-  "./src/assets/imgs/colisions/cobalt_02.jpeg",
-  "./src/assets/imgs/colisions/cobalt_03.jpeg",
-  "./src/assets/imgs/colisions/kwid_01.jpeg",
-  "./src/assets/imgs/colisions/kwid_02.jpeg",
-  "./src/assets/imgs/colisions/kwid_03.jpeg",
-  "./src/assets/imgs/colisions/kwid_04.jpeg"
+  { jpeg: "./src/assets/imgs/colisions/civic_01.jpeg", webp: "./src/assets/imgs/colisions/civic_01.webp" },
+  { jpeg: "./src/assets/imgs/colisions/civic_02.jpeg", webp: "./src/assets/imgs/colisions/civic_02.webp" },
+  { jpeg: "./src/assets/imgs/colisions/civic_03.jpeg", webp: "./src/assets/imgs/colisions/civic_03.webp" },
+  { jpeg: "./src/assets/imgs/colisions/civic_04.jpeg", webp: "./src/assets/imgs/colisions/civic_04.webp" },
+  { jpeg: "./src/assets/imgs/colisions/cobalt_01.jpeg", webp: "./src/assets/imgs/colisions/cobalt_01.webp" },
+  { jpeg: "./src/assets/imgs/colisions/cobalt_02.jpeg", webp: "./src/assets/imgs/colisions/cobalt_02.webp" },
+  { jpeg: "./src/assets/imgs/colisions/cobalt_03.jpeg", webp: "./src/assets/imgs/colisions/cobalt_03.webp" },
 ];
 
 const Hero: React.FC = () => {
@@ -22,11 +19,11 @@ const Hero: React.FC = () => {
   const [fade, setFade] = useState(false);
   const [showFloating, setShowFloating] = useState(false);
 
-  // Pré-carregar imagens
+  // Pré-carregar imagens WebP
   useEffect(() => {
-    images.forEach((src) => {
+    images.forEach(({ webp }) => {
       const img = new Image();
-      img.src = src;
+      img.src = webp;
     });
   }, []);
 
@@ -35,7 +32,7 @@ const Hero: React.FC = () => {
     const timer = setInterval(() => {
       setFade(true);
       setTimeout(() => {
-        setIndex((prev) => (prev + 1) % images.length);
+        setIndex(prev => (prev + 1) % images.length);
         setFade(false);
       }, 300);
     }, 5000);
@@ -63,7 +60,7 @@ const Hero: React.FC = () => {
 
       <div className="container relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-screen py-16">
-          {/* Content */}
+          {/* Conteúdo */}
           <div className="text-center lg:text-left space-y-5 my-12">
             <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
               <Shield className="h-5 w-5 text-white" />
@@ -80,12 +77,7 @@ const Hero: React.FC = () => {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {[
-                'Cobertura Nacional',
-                'Assistência 24/7',
-                'Rastreamento gratuito',
-                'Aprovação Rápida'
-              ].map((feature, idx) => (
+              {['Cobertura Nacional','Assistência 24/7','Rastreamento gratuito','Aprovação Rápida'].map((feature, idx) => (
                 <div key={idx} className="flex items-center space-x-3">
                   <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
                   <span className="text-white font-raleway">{feature}</span>
@@ -94,18 +86,11 @@ const Hero: React.FC = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 pt-4">
-              <Link
-                to="/whatsapp"
-                className="btn-accent text-lg px-8 py-4 inline-flex items-center justify-center space-x-3 group"
-              >
+              <Link to="/whatsapp" className="btn-accent text-lg px-8 py-4 inline-flex items-center justify-center space-x-3 group">
                 <Shield className="h-6 w-6 group-hover:animate-pulse" />
                 <span>Fazer Cotação Grátis</span>
               </Link>
-
-              <a
-                href="tel:+558440420869"
-                className="btn-outline text-lg px-8 py-4 inline-flex items-center justify-center space-x-3 bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white hover:text-primary"
-              >
+              <a href="tel:+558440420869" className="btn-outline text-lg px-8 py-4 inline-flex items-center justify-center space-x-3 bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white hover:text-primary">
                 <Phone className="h-6 w-6" />
                 <span>(84) 4042-0869</span>
               </a>
@@ -115,22 +100,22 @@ const Hero: React.FC = () => {
           {/* Visual/Image rotativa */}
           <div className="relative">
             <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-8 shadow-lg relative">
-              <img
-                src={images[index]}
-                alt="Carro protegido"
-                className={`w-full h-96 object-cover rounded-2xl shadow-md transition-opacity duration-500 ease-in-out ${
-                  fade ? 'opacity-0' : 'opacity-100'
-                }`}
-                loading="eager"
-              />
+              <picture>
+                <source srcSet={images[index].webp} type="image/webp" />
+                <img
+                  src={images[index].jpeg}
+                  alt="Carro protegido"
+                  className={`w-full h-96 object-cover rounded-2xl shadow-md transition-opacity duration-500 ease-in-out ${fade ? 'opacity-0' : 'opacity-100'}`}
+                  loading="eager"
+                />
+              </picture>
 
               {/* Floating Cards */}
               {showFloating && (
                 <>
-                  {/* Card Nossa Proteção */}
                   <motion.div
                     initial={{ opacity: 1, scale: 0.9 }}
-                    animate={{ opacity: 100, scale: [1, 1.05, 1] }}
+                    animate={{ opacity: 1, scale: [1, 1.05, 1] }}
                     transition={{ duration: 2, ease: "easeInOut", repeat: Infinity, repeatType: "loop" }}
                     className="absolute -top-6 -left-6 bg-white rounded-xl p-4 shadow-md"
                   >
@@ -145,10 +130,9 @@ const Hero: React.FC = () => {
                     </div>
                   </motion.div>
 
-                  {/* Card Antes / Depois */}
                   <motion.div
                     initial={{ opacity: 1, scale: 0.9 }}
-                    animate={{ opacity: 100, scale: [1, 1.05, 1] }}
+                    animate={{ opacity: 1, scale: [1, 1.05, 1] }}
                     transition={{ duration: 2, ease: "easeInOut", repeat: Infinity, repeatType: "loop", delay: 0.3 }}
                     className="absolute -bottom-1 -right-6 bg-accent rounded-xl p-4 shadow-md"
                   >

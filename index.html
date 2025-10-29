@@ -2,26 +2,45 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Lock Proteção Veicular - Proteja seu veículo com os melhores planos de associação veicular do mercado. Cobertura completa e atendimento 24h." />
     <meta name="keywords" content="proteção veicular, seguro auto, planos veiculares, associação, cobertura auto" />
-    <title>Lock Proteção Veicularl</title>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-PXRN7NQR');</script>
-    <!-- End Google Tag Manager -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Lock Proteção Veicular</title>
     <link rel="shortcut icon" href="./src/assets/imgs/ico/favicon.ico" type="image/x-icon" />
     <link rel="icon" href="./src/assets/imgs/ico/favicon.ico" type="image/x-icon" />
 
-    <!-- Meta Pixel Code -->
+    <!-- Google Fonts preload -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    </noscript>
+
+    <!-- Inline CSS crítico (exemplo mínimo para LCP acima da dobra) -->
+    <style>
+      body { margin:0; font-family: 'Montserrat', sans-serif; background:#1f3a8a; color:#fff; }
+      h1, h2, h3, p { margin:0; padding:0; }
+      .heading-hero { font-size:2.5rem; line-height:1.2; }
+      .btn-accent { background:#f59e0b; color:#fff; text-decoration:none; display:inline-flex; align-items:center; justify-content:center; padding:0.75rem 1.5rem; border-radius:0.5rem; }
+      .btn-outline { border:2px solid #fff; padding:0.75rem 1.5rem; border-radius:0.5rem; color:#fff; display:inline-flex; align-items:center; justify-content:center; text-decoration:none; }
+    </style>
+
+    <!-- CSS principal (async) -->
+    <link rel="preload" href="/assets/index-DeW6_qD9.css" as="style" onload="this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/assets/index-DeW6_qD9.css"></noscript>
+
+    <!-- Google Tag Manager -->
     <script>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-XXXX');
+    </script>
+
+    <!-- Facebook Pixel -->
+    <script async>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -33,17 +52,20 @@
     fbq('init', '803178395788966');
     fbq('track', 'PageView');
     </script>
-    <!-- End Meta Pixel Code -->
+    <noscript>
+      <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=803178395788966&ev=PageView&noscript=1"/>
+    </noscript>
+
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PXRN7NQR"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=803178395788966&ev=PageView&noscript=1"
-    /></noscript>
+    <noscript>
+      <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXX"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/src/main.tsx" defer></script>
   </body>
 </html>
