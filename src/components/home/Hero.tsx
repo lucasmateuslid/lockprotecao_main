@@ -4,14 +4,15 @@ import { Shield, Phone, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 
 const images = [
-  { jpeg: "./public/assets/imgs/colisions/civic_01.jpeg", webp: "./public/assets/imgs/colisions/civic_01.webp" },
-  { jpeg: "./public/assets/imgs/colisions/civic_02.jpeg", webp: "./public/assets/imgs/colisions/civic_02.webp" },
-  { jpeg: "./public/assets/imgs/colisions/civic_03.jpeg", webp: "./public/assets/imgs/colisions/civic_03.webp" },
-  { jpeg: "./public/assets/imgs/colisions/civic_04.jpeg", webp: "./public/assets/imgs/colisions/civic_04.webp" },
-  { jpeg: "./public/assets/imgs/colisions/cobalt_01.jpeg", webp: "./public/assets/imgs/colisions/cobalt_01.webp" },
-  { jpeg: "./public/assets/imgs/colisions/cobalt_02.jpeg", webp: "./public/assets/imgs/colisions/cobalt_02.webp" },
-  { jpeg: "./public/assets/imgs/colisions/cobalt_03.jpeg", webp: "./public/assets/imgs/colisions/cobalt_03.webp" },
+  { jpeg: "/assets/imgs/colisions/civic_01.jpeg", webp: "/assets/imgs/colisions/civic_01.webp" },
+  { jpeg: "/assets/imgs/colisions/civic_02.jpeg", webp: "/assets/imgs/colisions/civic_02.webp" },
+  { jpeg: "/assets/imgs/colisions/civic_03.jpeg", webp: "/assets/imgs/colisions/civic_03.webp" },
+  { jpeg: "/assets/imgs/colisions/civic_04.jpeg", webp: "/assets/imgs/colisions/civic_04.webp" },
+  { jpeg: "/assets/imgs/colisions/cobalt_01.jpeg", webp: "/assets/imgs/colisions/cobalt_01.webp" },
+  { jpeg: "/assets/imgs/colisions/cobalt_02.jpeg", webp: "/assets/imgs/colisions/cobalt_02.webp" },
+  { jpeg: "/assets/imgs/colisions/cobalt_03.jpeg", webp: "/assets/imgs/colisions/cobalt_03.webp" },
 ];
+
 
 const Hero: React.FC = () => {
   const [index, setIndex] = useState(0);
@@ -114,20 +115,36 @@ const Hero: React.FC = () => {
             </div>
           </div>
 
-          {/* Visual/Image rotativa */}
-          <div className="relative">
-            <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-8 shadow-lg relative">
-              <picture>
-                <source srcSet={images[index].webp} type="image/webp" />
-                <img
-                  src={images[index].jpeg}
-                  alt="Carro protegido"
-                  className={`w-full h-96 object-cover rounded-2xl shadow-md transition-opacity duration-500 ease-in-out ${
-                    fade ? "opacity-0" : "opacity-100"
-                  }`}
-                  loading="lazy"
-                />
-              </picture>
+            {/* Visual/Image rotativa */}
+            <div className="relative">
+              <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-8 shadow-lg relative">
+                <picture>
+                  {/* Adiciona srcset para tamanhos responsivos */}
+                  <source
+                    srcSet={`${images[index].webp.replace(".webp", "-small.webp")} 480w, 
+                            ${images[index].webp.replace(".webp", "-medium.webp")} 768w, 
+                            ${images[index].webp} 1280w`}
+                    type="image/webp"
+                  />
+                  <source
+                    srcSet={`${images[index].jpeg.replace(".jpeg", "-small.jpeg")} 480w, 
+                            ${images[index].jpeg.replace(".jpeg", "-medium.jpeg")} 768w, 
+                            ${images[index].jpeg} 1280w`}
+                    type="image/jpeg"
+                  />
+                  <img
+                    src={images[index].jpeg}
+                    alt="Carro protegido pela Lock Proteção Veicular"
+                    className={`w-full h-96 object-cover rounded-2xl shadow-md transition-opacity duration-500 ease-in-out ${
+                      fade ? "opacity-0" : "opacity-100"
+                    }`}
+                    loading={index === 0 ? "eager" : "lazy"}  // a primeira imagem deve ser eager para o LCP
+                    decoding="async"
+                    width="800"
+                    height="450"
+                    fetchPriority={index === 0 ? "high" : "auto"}
+                  />
+                </picture>
 
               {/* Floating Cards */}
               {showFloating && (
