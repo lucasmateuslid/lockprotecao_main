@@ -11,10 +11,6 @@ const images = [
   { jpeg: "./public/assets/imgs/colisions/cobalt_01.jpeg", webp: "./public/assets/imgs/colisions/cobalt_01.webp" },
   { jpeg: "./public/assets/imgs/colisions/cobalt_02.jpeg", webp: "./public/assets/imgs/colisions/cobalt_02.webp" },
   { jpeg: "./public/assets/imgs/colisions/cobalt_03.jpeg", webp: "./public/assets/imgs/colisions/cobalt_03.webp" },
-  { jpeg: "./public/assets/imgs/colisions/kwid_01.jpeg", webp: "./public/assets/imgs/colisions/kwid_01.webp" },
-  { jpeg: "./public/assets/imgs/colisions/kwid_02.jpeg", webp: "./public/assets/imgs/colisions/kwid_02.webp" },
-  { jpeg: "./public/assets/imgs/colisions/kwid_03.jpeg", webp: "./public/assets/imgs/colisions/kwid_03.webp" },
-  { jpeg: "./public/assets/imgs/colisions/kwid_04.jpeg", webp: "./public/assets/imgs/colisions/kwid_04.webp" },
 ];
 
 const Hero: React.FC = () => {
@@ -44,14 +40,14 @@ const Hero: React.FC = () => {
       setTimeout(() => {
         setIndex((prev) => (prev + 1) % images.length);
         setFade(false);
-      }, 500);
-    }, 35000);
+      }, 350);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
   // Mostrar floating cards após 1s
   useEffect(() => {
-    const timer = setTimeout(() => setShowFloating(true), 1000);
+    const timer = setTimeout(() => setShowFloating(true), 150);
     return () => clearTimeout(timer);
   }, []);
 
@@ -129,7 +125,7 @@ const Hero: React.FC = () => {
                   className={`w-full h-96 object-cover rounded-2xl shadow-md transition-opacity duration-500 ease-in-out ${
                     fade ? "opacity-0" : "opacity-100"
                   }`}
-                  loading="eager"
+                  loading="lazy"
                 />
               </picture>
 

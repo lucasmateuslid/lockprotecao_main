@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  mode: 'jit',
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
@@ -18,8 +19,8 @@ export default {
         128: '32rem',
       },
       boxShadow: {
-        custom: '0 4px 6px rgba(0, 0, 0, 0.1)', // shadow-custom
-        'custom-lg': '0 10px 20px rgba(0, 0, 0, 0.15)', // shadow-custom-lg
+        custom: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        'custom-lg': '0 10px 20px rgba(0, 0, 0, 0.15)',
       },
       animation: {
         'fade-in': 'fadeIn 0.6s ease-out',
@@ -52,5 +53,8 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+  ],
 };
