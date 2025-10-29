@@ -71,7 +71,7 @@ const About: React.FC = () => {
               Conheça a <span className="text-accent">Lock Proteção</span>
             </h1>
             <p className="text-xl lg:text-2xl opacity-90 leading-relaxed">
-              Há mais de 15 anos protegendo o que você tem de mais importante, 
+              Há mais de 4 anos protegendo o que você tem de mais importante, 
               com inovação, tecnologia e muito carinho no atendimento.
             </p>
           </div>
@@ -88,21 +88,20 @@ const About: React.FC = () => {
               </h2>
               <div className="space-y-6 text-gray-600 leading-relaxed">
                 <p>
-                  A Lock Proteção Veicular nasceu em 2009 com um propósito claro: 
-                  democratizar o acesso à proteção veicular no Brasil. Fundada por Carlos Mendonça, 
-                  que vinha de uma experiência frustrante com seguros tradicionais, 
-                  a empresa surgiu para revolucionar o setor.
+                  A Lock Proteção Veicular surgiu a partir de uma necessidade concreta: 
+                  oferecer aos potiguares uma alternativa acessível e confiável de proteção para seus veículos. 
+                  A iniciativa nasceu quando nosso presidente, ao lado de um grupo de profissionais experientes do setor, identificou que muitos motoristas no Rio Grande do Norte
+                  estavam ficando desassistidos pela alta dos preços e pela burocracia das seguradoras tradicionais.
                 </p>
                 <p>
-                  Começamos pequenos, com apenas 5 funcionários e um grande sonho: 
-                  criar uma empresa que realmente se importasse com as pessoas. 
-                  Hoje, somos mais de 200 colaboradores espalhados por todo o país, 
-                  mas mantemos o mesmo carinho e atenção de sempre.
+                 Com esse cenário em mente, o grupo decidiu transformar a experiência adquirida no mercado de seguros convencionais
+                  em uma proposta mais justa, transparente e próxima da realidade local. Assim nasceu a Lock Proteção Veicular,
+                  com o compromisso de democratizar o acesso à proteção sem abrir mão da qualidade e da responsabilidade.
                 </p>
                 <p>
-                  Nossa jornada é marcada pela inovação constante, transparência total 
-                  e um compromisso inabalável com a satisfação do cliente. 
-                  Cada pessoa que confia em nós é tratada como família.
+                  Desde então, nossa atuação tem sido guiada por três pilares: transparência nas relações,
+                   atendimento humanizado e valores que cabem no orçamento do cliente. Crescemos, expandimos e evoluímos ao longo dos anos,
+                   mas mantemos intacto o propósito que nos trouxe até aqui: proteger pessoas com seriedade, respeito e credibilidade.
                 </p>
               </div>
             </div>
@@ -114,8 +113,8 @@ const About: React.FC = () => {
                 loading="lazy"
               />
               <div className="absolute -bottom-6 -left-6 bg-accent text-white p-6 rounded-2xl shadow-xl">
-                <h3 className="text-2xl font-montserrat font-bold">15+</h3>
-                <p className="font-medium">Anos de Experiência</p>
+                <h3 className="text-2xl font-montserrat font-bold">+4 Anos</h3>
+                <p className="font-medium">Protegendo o que é seu</p>
               </div>
             </div>
           </div>
@@ -164,9 +163,9 @@ const About: React.FC = () => {
                 <h3 className="heading-lg text-primary">Nossa Missão</h3>
               </div>
               <p className="text-gray-600 leading-relaxed">
-                Proteger o patrimônio dos brasileiros através de soluções inovadoras, 
+                Proteger o patrimônio dos nossos associados através de soluções inovadoras, 
                 acessíveis e humanizadas em proteção veicular, sempre com transparência, 
-                agilidade e excelência no atendimento.
+                agilidade e excelência nos nossos processos, serviços e atendimento.
               </p>
             </div>
 
@@ -178,9 +177,9 @@ const About: React.FC = () => {
                 <h3 className="heading-lg text-accent">Nossa Visão</h3>
               </div>
               <p className="text-gray-600 leading-relaxed">
-                Ser a principal referência em proteção veicular no Brasil, 
+                Ser a principal referência em proteção veicular no Nordeste, 
                 reconhecida pela inovação, qualidade dos serviços e pela transformação 
-                positiva na vida dos nossos clientes.
+                positiva na vida dos nossos associados, tornando-se sinônimo de confiança em proteção veicular no Nordeste.
               </p>
             </div>
           </div>
@@ -188,6 +187,7 @@ const About: React.FC = () => {
       </section>
 
       {/* Timeline */}
+      {/*}
       <section className="section bg-white">
         <div className="container">
           <div className="text-center mb-16">
@@ -200,23 +200,24 @@ const About: React.FC = () => {
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="relative">
+            <div className="relative"> */}
               {/* Timeline Line */}
-              <div className="absolute left-6 top-0 bottom-0 w-1 bg-primary/20"></div>
+            
+              {/*<div className="absolute left-6 top-0 bottom-0 w-1 bg-primary/20"></div>*/}
 
               {/* Timeline Items */}
-              <div className="space-y-12">
+{/*              <div className="space-y-12">
                 {milestones.map((milestone, index) => (
-                  <div key={index} className="relative flex items-center space-x-8">
+                  <div key={index} className="relative flex items-center space-x-8"> */}
                     {/* Timeline Dot */}
-                    <div className="bg-primary w-12 h-12 rounded-full flex items-center justify-center shadow-lg relative z-10">
+{/*                    <div className="bg-primary w-12 h-12 rounded-full flex items-center justify-center shadow-lg relative z-10">
                       <span className="text-white font-montserrat font-bold text-sm">
                         {milestone.year.slice(-2)}
                       </span>
                     </div>
-                    
+*/}                 
                     {/* Content */}
-                    <div className="bg-gray-50 rounded-xl p-6 flex-1">
+{/*                    <div className="bg-gray-50 rounded-xl p-6 flex-1">
                       <h3 className="font-montserrat font-bold text-primary text-lg mb-2">
                         {milestone.year}
                       </h3>
@@ -230,9 +231,9 @@ const About: React.FC = () => {
             </div>
           </div>
         </div>
-      </section>
-
+      </section>*/}
       {/* Team */}
+      {/*
       <section className="section bg-gray-50">
         <div className="container">
           <div className="text-center mb-16">
@@ -269,7 +270,7 @@ const About: React.FC = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Stats */}
       <section className="section bg-primary text-white">
@@ -282,8 +283,8 @@ const About: React.FC = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { number: '50K+', label: 'Clientes Satisfeitos' },
-              { number: '99.8%', label: 'Taxa de Satisfação' },
+              { number: '6.000+', label: 'Veiculso Protegidos' },
+              { number: '97.8%', label: 'Taxa de Satisfação' },
               { number: '5.000+', label: 'Parceiros Credenciados' },
               { number: '24h', label: 'Atendimento Disponível' }
             ].map((stat, index) => (

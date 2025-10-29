@@ -7,6 +7,8 @@ const Testimonials = React.lazy(() => import('../components/home/Testimonials'))
 const Benefits = React.lazy(() => import('../components/home/Benefits'));
 const FeaturedPlans = React.lazy(() => import('../components/home/FeaturedPlans'));
 const CallToAction = React.lazy(() => import('../components/home/CallToAction'));
+const Emergency = React.lazy(() => import('../components/home/Emergency'));
+
 
 const Home: React.FC = () => {
   return (
@@ -33,6 +35,10 @@ const Home: React.FC = () => {
 
       <Suspense fallback={<div className="min-h-32"></div>}>
         <CallToAction />
+      </Suspense>
+      
+      <Suspense fallback={<div className="min-h-32"></div>}>
+        <Emergency />
       </Suspense>
     </div>
   );
