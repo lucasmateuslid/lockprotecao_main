@@ -52,7 +52,7 @@ const FloatingCTA: React.FC = () => {
         mobileClicked.current = false;
       }, 5000);
     } else {
-      navigate('/pwr-cotacao'); // <-- navegação interna do React Router
+        window.location.href = "/pwr-cotacao"
     }
   };
 
@@ -111,8 +111,14 @@ const FloatingCTA: React.FC = () => {
             onClick={handleMobileClick}
             className="btn-accent flex items-center space-x-2 shadow-lg animate-bounce-gentle"
           >
-            <Calculator className="h-5 w-5" />
-            <span className="font-montserrat font-semibold">Cotar Agora</span>
+            <Link
+              to="/pwr-cotacao"
+              className="font-montserrat font-semibold"
+              title="Fazer Cotação"
+            >
+              Cotar Agora
+            </Link>
+            
           </button>
         </div>
 
