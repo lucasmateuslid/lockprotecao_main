@@ -1,23 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Calculator, Phone, MessageCircle, ChevronUp } from 'lucide-react';
 
 const FloatingCTA: React.FC = () => {
+  const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const holdTimeout = useRef<NodeJS.Timeout | null>(null);
+  const holdTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const mobileClicked = useRef(false);
 
+  // Mostrar o CTA após 2s e monitorar scroll
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 2000);
-
     const handleScroll = () => setShowScrollTop(window.pageYOffset > 300);
 
     window.addEventListener('scroll', handleScroll);
+
     return () => {
       clearTimeout(timer);
       window.removeEventListener('scroll', handleScroll);
+      if (holdTimeout.current) clearTimeout(holdTimeout.current);
     };
   }, []);
 
@@ -25,35 +28,31 @@ const FloatingCTA: React.FC = () => {
 
   const openWhatsApp = () => {
     const phone = '558440420869';
-    const message = 'Olá! Vim pelo site e gostaria de conhecer os planos de proteção veicular da Lock Proteção.';
+    const message =
+      'Olá! Vim pelo site e gostaria de conhecer os planos de proteção veicular da Lock Proteção.';
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
-  // Mostra os botões por 5 segundos
+  // Mostra os botões expandidos por 5 segundos
   const showExpanded = () => {
     setIsExpanded(true);
     if (holdTimeout.current) clearTimeout(holdTimeout.current);
-    holdTimeout.current = setTimeout(() => {
-      setIsExpanded(false);
-    }, 5000);
+    holdTimeout.current = setTimeout(() => setIsExpanded(false), 5000);
   };
 
-  // Função para desktop hover
+  // Hover desktop
   const handleMouseEnter = () => showExpanded();
 
-  // Função para mobile click
+  // Clique mobile
   const handleMobileClick = () => {
     if (!mobileClicked.current) {
-      // Primeira vez: mostrar os botões
       mobileClicked.current = true;
       showExpanded();
-      // Resetar após 5s caso não clique novamente
       setTimeout(() => {
         mobileClicked.current = false;
       }, 5000);
     } else {
-      // Segunda vez: redireciona para cotação
-      window.location.href = '/pwr-cotacao';
+      navigate('/pwr-cotacao'); // <-- navegação interna do React Router
     }
   };
 
@@ -61,8 +60,8 @@ const FloatingCTA: React.FC = () => {
 
   return (
     <div className="fixed bottom-6 right-6 z-50 no-print">
-      <div className="flex flex-col items-end space-y-3">
-        {/* Scroll to top button */}
+      <div className="flex flex-col items-end space-y-3 relative">
+        {/* Scroll to top */}
         {showScrollTop && (
           <button
             onClick={scrollToTop}
@@ -73,7 +72,7 @@ const FloatingCTA: React.FC = () => {
           </button>
         )}
 
-        {/* Expanded options */}
+        {/* Botões expandidos */}
         {isExpanded && (
           <div className="flex flex-col space-y-2 animate-fade-in">
             <Link
@@ -94,9 +93,9 @@ const FloatingCTA: React.FC = () => {
           </div>
         )}
 
-        {/* Main CTA buttons */}
+        {/* Botões principais */}
         <div className="flex items-center space-x-3">
-          {/* WhatsApp Button */}
+          {/* WhatsApp */}
           <button
             onClick={openWhatsApp}
             className="bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 whatsapp-pulse flex items-center space-x-2"
@@ -106,10 +105,10 @@ const FloatingCTA: React.FC = () => {
             <span className="hidden sm:block font-montserrat font-semibold">WhatsApp</span>
           </button>
 
-          {/* Main CTA Button */}
+          {/* CTA principal */}
           <button
-            onMouseEnter={handleMouseEnter} // Desktop hover
-            onClick={handleMobileClick}      // Mobile click
+            onMouseEnter={handleMouseEnter}
+            onClick={handleMobileClick}
             className="btn-accent flex items-center space-x-2 shadow-lg animate-bounce-gentle"
           >
             <Calculator className="h-5 w-5" />
