@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Calculator, Phone, MessageCircle, ChevronUp } from 'lucide-react';
+import { Calculator, Phone, MessageCircle, ChevronUp, X } from 'lucide-react';
 
 const FloatingCTA: React.FC = () => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showWhatsAppBubble, setShowWhatsAppBubble] = useState(false);
   const holdTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const mobileClicked = useRef(false);
 
@@ -24,6 +25,14 @@ const FloatingCTA: React.FC = () => {
     };
   }, []);
 
+  // Mostrar bolha de mensagem do WhatsApp após 10 segundos
+  useEffect(() => {
+    if (isVisible) {
+      const bubbleTimer = setTimeout(() => setShowWhatsAppBubble(true), 10000);
+      return () => clearTimeout(bubbleTimer);
+    }
+  }, [isVisible]);
+
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   const openWhatsApp = () => {
@@ -33,17 +42,14 @@ const FloatingCTA: React.FC = () => {
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
-  // Mostra os botões expandidos por 5 segundos
   const showExpanded = () => {
     setIsExpanded(true);
     if (holdTimeout.current) clearTimeout(holdTimeout.current);
     holdTimeout.current = setTimeout(() => setIsExpanded(false), 5000);
   };
 
-  // Hover desktop
   const handleMouseEnter = () => showExpanded();
 
-  // Clique mobile
   const handleMobileClick = () => {
     if (!mobileClicked.current) {
       mobileClicked.current = true;
@@ -51,8 +57,6 @@ const FloatingCTA: React.FC = () => {
       setTimeout(() => {
         mobileClicked.current = false;
       }, 5000);
-    } else {
-
     }
   };
 
@@ -61,6 +65,7 @@ const FloatingCTA: React.FC = () => {
   return (
     <div className="fixed bottom-6 right-6 z-50 no-print">
       <div className="flex flex-col items-end space-y-3 relative">
+
         {/* Scroll to top */}
         {showScrollTop && (
           <button
@@ -70,6 +75,21 @@ const FloatingCTA: React.FC = () => {
           >
             <ChevronUp className="h-6 w-6" />
           </button>
+        )}
+
+        {/* Bolha de mensagem do WhatsApp */}
+        {showWhatsAppBubble && (
+          <div className="absolute right-full mr-3 bottom-1 bg-white text-gray-800 px-4 py-3 rounded-2xl shadow-xl border border-gray-200 animate-fade-in flex items-center space-x-2">
+            <p className="font-medium text-sm">Quer mais informações? <br />Vem falar conosco!!</p>
+            <button
+              onClick={() => setShowWhatsAppBubble(false)}
+              className="text-gray-400 hover:text-gray-600"
+              aria-label="Fechar"
+            >
+              <X className="w-4 h-4" />
+            </button>
+            <div className="absolute -right-2 bottom-3 w-3 h-3 bg-white rotate-45 border-b border-r border-gray-200"></div>
+          </div>
         )}
 
         {/* Botões expandidos */}
@@ -98,7 +118,7 @@ const FloatingCTA: React.FC = () => {
           {/* WhatsApp */}
           <button
             onClick={openWhatsApp}
-            className="bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 whatsapp-pulse flex items-center space-x-2"
+            className="relative bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 whatsapp-pulse flex items-center space-x-2"
             title="Falar no WhatsApp"
           >
             <MessageCircle className="h-6 w-6" />
@@ -118,7 +138,6 @@ const FloatingCTA: React.FC = () => {
             >
               Cotar Agora
             </Link>
-            
           </button>
         </div>
 

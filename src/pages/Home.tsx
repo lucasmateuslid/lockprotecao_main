@@ -33,9 +33,7 @@ const Home: React.FC = () => {
         <FeaturedPlans />
       </Suspense>
 
-      <Suspense fallback={<div className="min-h-32"></div>}>
-        <CallToAction />
-      </Suspense>
+      {/* <Suspense fallback={<div className="min-h-32"></div>}> <CallToAction /> </Suspense> */}
       
       <Suspense fallback={<div className="min-h-32"></div>}>
         <Emergency />

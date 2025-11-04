@@ -16,6 +16,7 @@ import Plans from "./pages/Plans";
 import About from "./pages/About";
 import Quote from "./pages/Quote";
 import Contact from "./pages/Contact";
+import Apps from "./pages/Apps";
 
 // Novas páginas
 import LGPD from "./pages/LGPD";
@@ -72,6 +73,7 @@ function App() {
             <Route path="/politica-privacidade" element={<PoliticaPrivacidade />} />
             <Route path="/whatsapp" element={<WhatsappRedirect />} />
             <Route path="/pwr-cotacao" element={<PowerForm />} />
+            <Route path="/apps" element={<Apps />} />
 
             {/* Rota 404 */}
             <Route

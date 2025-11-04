@@ -7,6 +7,7 @@ const navItems = [
   { name: 'Cotação', path: '/pwr-cotacao' },
   { name: 'Contato', path: '/contato' },
   { name: 'Sobre', path: '/sobre' },
+  { name: 'Apps', path: '/apps' },
 ];
 
 const Header: React.FC = () => {

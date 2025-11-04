@@ -97,7 +97,7 @@ const Footer: React.FC = () => {
         <div>
           <h4 className="text-lg font-montserrat font-semibold mb-6">Contato</h4>
           <div className="space-y-4">
-            <ContactItem icon={Phone} label="Central de Atendimento" primary="+55 84 4042-0869" secondary="WhatsApp: (83) 3142-1040" />
+            <ContactItem icon={Phone} label="Central de Atendimento" primary="0800 591 8701" secondary="WhatsApp: (84) 4042-0869" />
             <ContactItem icon={Mail} label="Email" primary="contato@lockprotecao.com.br" isLink />
             <ContactItem icon={MapPin} label="Endereço" primary="Av. Prudente de Morais, 2700 - Lagoa Seca, Natal/RN" />
             <ContactItem icon={Clock} label="Funcionamento" primary="24 horas por dia" secondary="7 dias por semana" />
@@ -105,7 +105,7 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
-      {/* Newsletter */}
+      {/* Newsletter */} 
       <div className="border-t border-gray-800">
         <div className="container py-8 flex flex-col lg:flex-row items-center justify-between space-y-4 lg:space-y-0">
           <div>
