@@ -40,42 +40,64 @@
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
     <link rel="preconnect" href="https://connect.facebook.net" crossorigin />
 
-    <!-- Google Fonts (carregamento não bloqueante) -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Raleway:wght@300;400;500;600&display=swap"
-          rel="stylesheet" media="print" onload="this.media='all'" />
+    <!-- Google Fonts (não bloqueante) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Raleway:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
     <noscript>
-      <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Raleway:wght@300;400;500;600&display=swap"
-            rel="stylesheet" />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Raleway:wght@300;400;500;600&display=swap"
+        rel="stylesheet"
+      />
     </noscript>
 
     <!-- CSS principal com preload -->
     <link rel="preload" href="./src/index.css" as="style" onload="this.rel='stylesheet'" />
     <noscript><link rel="stylesheet" href="./src/index.css" /></noscript>
 
-    <!-- Google Tag Manager (head script) -->
+    <!-- Google Tag Manager (HEAD) -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ event: 'gtm.js', 'gtm.start': new Date().getTime() });
-      (function(w,d,s,i){
-        const f=d.getElementsByTagName(s)[0];
-        const j=d.createElement(s);
-        j.async=true;
-        j.src='https://www.googletagmanager.com/gtm.js?id='+i;
-        f.parentNode.insertBefore(j,f);
-      })(window,document,'script','GTM-XXXX');
+      (function(w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-PXRN7NQR');
     </script>
 
     <!-- Facebook Pixel -->
     <script>
-      !(function(f,b,e,v,n,t,s){
-        if(f.fbq)return;
-        n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;
-        n.push=n; n.loaded=!0; n.version='2.0'; n.queue=[];
-        t=b.createElement(e); t.async=!0; t.defer=!0; t.src=v;
-        s=b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t,s);
-      })(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
-      document.addEventListener('DOMContentLoaded',()=>{if(window.fbq){fbq('init','803178395788966'); fbq('track','PageView');}});
+      !(function(f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function() {
+          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.defer = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+
+      document.addEventListener('DOMContentLoaded', () => {
+        if (window.fbq) {
+          fbq('init', '803178395788966');
+          fbq('track', 'PageView');
+        }
+      });
     </script>
 
     <!-- Preload JS principal -->
@@ -85,16 +107,25 @@
   <body>
     <!-- Google Tag Manager (noscript) -->
     <noscript>
-      <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXX"
-              height="0" width="0" style="display:none;visibility:hidden"></iframe>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-PXRN7NQR"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+      ></iframe>
     </noscript>
 
     <div id="root"></div>
 
     <!-- Facebook Pixel noscript -->
     <noscript>
-      <img height="1" width="1" style="display:none"
-           src="https://www.facebook.com/tr?id=803178395788966&ev=PageView&noscript=1" alt="" />
+      <img
+        height="1"
+        width="1"
+        style="display:none"
+        src="https://www.facebook.com/tr?id=803178395788966&ev=PageView&noscript=1"
+        alt=""
+      />
     </noscript>
 
     <!-- Script principal -->

@@ -1,25 +1,32 @@
-import React, { useState, useEffect, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import ScrollToTop from './components/ScrollToTop';
+import React, { useState, useEffect, Suspense } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
+import ScrollToTop from "./components/ScrollToTop";
+import { useGTMPageView } from "./hooks/useGTMPageView"; // ✅ Hook GTM
+
+// 🔹 Componente auxiliar para ativar o GTM dentro do Router
+function GTMTracker() {
+  useGTMPageView();
+  return null; // Não renderiza nada na tela
+}
 
 // Páginas essenciais
-import Home from './pages/Home';
-import Plans from './pages/Plans';
-import About from './pages/About';
-import Quote from './pages/Quote';
-import Contact from './pages/Contact';
+import Home from "./pages/Home";
+import Plans from "./pages/Plans";
+import About from "./pages/About";
+import Quote from "./pages/Quote";
+import Contact from "./pages/Contact";
 
 // Novas páginas
-import LGPD from './pages/LGPD';
-import TermosDeUso from './pages/TermosDeUso';
-import PoliticaPrivacidade from './pages/PoliticaPrivacidade';
-import WhatsappRedirect from './pages/WhatsappRedirect';
-import PowerForm from './pages/PowerForm';
+import LGPD from "./pages/LGPD";
+import TermosDeUso from "./pages/TermosDeUso";
+import PoliticaPrivacidade from "./pages/PoliticaPrivacidade";
+import WhatsappRedirect from "./pages/WhatsappRedirect";
+import PowerForm from "./pages/PowerForm";
 
-// Lazy load para seções secundárias abaixo da dobra
-const Footer = React.lazy(() => import('./components/Footer'));
-const FloatingCTA = React.lazy(() => import('./components/FloatingCTA'));
+// Lazy load (carregamento sob demanda)
+const Footer = React.lazy(() => import("./components/Footer"));
+const FloatingCTA = React.lazy(() => import("./components/FloatingCTA"));
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -31,6 +38,7 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  // 🌀 Tela de loading inicial
   if (isLoading) {
     return (
       <div className="min-h-screen bg-primary flex items-center justify-center">
@@ -39,8 +47,12 @@ function App() {
     );
   }
 
+  // 🌐 App principal
   return (
     <Router>
+      {/* ✅ O GTMTracker precisa estar dentro do Router */}
+      <GTMTracker />
+
       <div className="min-h-screen bg-white">
         <ScrollToTop />
         <Header />
@@ -61,7 +73,7 @@ function App() {
             <Route path="/whatsapp" element={<WhatsappRedirect />} />
             <Route path="/pwr-cotacao" element={<PowerForm />} />
 
-            {/* Rota fallback personalizada */}
+            {/* Rota 404 */}
             <Route
               path="*"
               element={
@@ -73,7 +85,9 @@ function App() {
                     <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto text-gray-100">
                       Ops! A página que você está tentando acessar não existe ou foi removida.
                     </p>
-                    <p className="mt-2 text-gray-200">Selecione outra página para continuar navegando:</p>
+                    <p className="mt-2 text-gray-200">
+                      Selecione outra página para continuar navegando:
+                    </p>
 
                     <div className="mt-8 flex flex-wrap justify-center gap-4">
                       <a
@@ -102,7 +116,7 @@ function App() {
           </Routes>
         </main>
 
-        {/* Footer e FloatingCTA lazy loaded */}
+        {/* Lazy components */}
         <Suspense fallback={<div className="min-h-32"></div>}>
           <Footer />
           <FloatingCTA />
