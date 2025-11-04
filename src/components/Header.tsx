@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone } from 'lucide-react';
+import { Menu, X, Phone, Hexagon } from 'lucide-react';
 
 const navItems = [
   { name: 'Home', path: '/' },
@@ -98,7 +98,7 @@ const Header: React.FC = () => {
           {isMenuOpen ? (
             <X className={`h-6 w-6 ${isScrolled ? 'text-text' : 'text-white'}`} />
           ) : (
-            <Menu className={`h-6 w-6 ${isScrolled ? 'text-text' : 'text-white'}`} />
+            <Hexagon className={`h-6 w-6 ${isScrolled ? 'text-text' : 'text-white'}`} />
           )}
         </button>
       </div>
