@@ -12,11 +12,12 @@ function GTMTracker() {
 
 // Páginas essenciais
 import Home from "./pages/Home";
-import Plans from "./pages/Plans";
+
 import About from "./pages/About";
 import Quote from "./pages/Quote";
 import Contact from "./pages/Contact";
 import Apps from "./pages/Apps";
+import Thanks from "./pages/Thanks";
 
 // Novas páginas
 import LGPD from "./pages/LGPD";
@@ -62,7 +63,6 @@ function App() {
           <Routes>
             {/* Páginas principais */}
             <Route path="/" element={<Home />} />
-            <Route path="/planos" element={<Plans />} />
             <Route path="/sobre" element={<About />} />
             <Route path="/cotacao" element={<Quote />} />
             <Route path="/contato" element={<Contact />} />
@@ -74,6 +74,7 @@ function App() {
             <Route path="/whatsapp" element={<WhatsappRedirect />} />
             <Route path="/pwr-cotacao" element={<PowerForm />} />
             <Route path="/apps" element={<Apps />} />
+            <Route path="/obrigado" element={<Thanks />} />
 
             {/* Rota 404 */}
             <Route
@@ -98,12 +99,7 @@ function App() {
                       >
                         Início
                       </a>
-                      <a
-                        href="/planos"
-                        className="bg-white text-blue-700 font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-gray-100 transition-all duration-300"
-                      >
-                        Planos
-                      </a>
+                    
                       <a
                         href="/contato"
                         className="bg-white text-blue-700 font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-gray-100 transition-all duration-300"

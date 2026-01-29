@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, Hexagon } from 'lucide-react';
+import { Menu, X, Phone } from 'lucide-react';
 
 const navItems = [
   { name: 'Home', path: '/' },
@@ -14,15 +14,24 @@ const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Scroll listener otimizado
+  // Scroll listener otimizado com throttle de 100ms
   const handleScroll = useCallback(() => {
-    setIsScrolled(window.scrollY > 50);
+    if (scrollTimeoutRef.current) return;
+    
+    scrollTimeoutRef.current = setTimeout(() => {
+      setIsScrolled(window.scrollY > 50);
+      scrollTimeoutRef.current = null;
+    }, 100);
   }, []);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    };
   }, [handleScroll]);
 
   // Fecha menu mobile ao mudar de rota
@@ -98,7 +107,7 @@ const Header: React.FC = () => {
           {isMenuOpen ? (
             <X className={`h-6 w-6 ${isScrolled ? 'text-text' : 'text-white'}`} />
           ) : (
-            <Hexagon className={`h-6 w-6 ${isScrolled ? 'text-text' : 'text-white'}`} />
+            <Menu className={`h-6 w-6 ${isScrolled ? 'text-text' : 'text-white'}`} />
           )}
         </button>
       </div>

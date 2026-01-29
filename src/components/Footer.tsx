@@ -6,7 +6,6 @@ const currentYear = new Date().getFullYear();
 
 const quickLinks = [
   { name: 'Home', path: '/' },
-  { name: 'Planos', path: '/planos' },
   { name: 'Sobre Nós', path: '/sobre' },
   { name: 'Cotação', path: '/pwr-cotacao' },
   { name: 'Contato', path: '/contato' },

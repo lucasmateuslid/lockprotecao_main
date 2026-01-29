@@ -151,7 +151,6 @@ const Quote: React.FC = () => {
       const consultant = chooseRandomConsultant();
       redirectToConsultant(consultant, payload);
     } catch (err: any) {
-      console.error(err);
       setErrorMessage(err?.message || 'Erro desconhecido ao enviar a cotação.');
       window.alert(err?.message || 'Erro ao enviar a cotação. Tente novamente.');
     } finally {

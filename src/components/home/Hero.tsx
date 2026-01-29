@@ -1,184 +1,185 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Shield, Phone, CheckCircle } from "lucide-react";
+import { Shield, Phone, CheckCircle, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 
 const images = [
-  { jpeg: "/assets/imgs/colisions/civic_01.jpeg", webp: "/assets/imgs/colisions/civic_01.webp" },
-  { jpeg: "/assets/imgs/colisions/civic_02.jpeg", webp: "/assets/imgs/colisions/civic_02.webp" },
-  { jpeg: "/assets/imgs/colisions/civic_03.jpeg", webp: "/assets/imgs/colisions/civic_03.webp" },
-  { jpeg: "/assets/imgs/colisions/civic_04.jpeg", webp: "/assets/imgs/colisions/civic_04.webp" },
-  { jpeg: "/assets/imgs/colisions/cobalt_01.jpeg", webp: "/assets/imgs/colisions/cobalt_01.webp" },
-  { jpeg: "/assets/imgs/colisions/cobalt_02.jpeg", webp: "/assets/imgs/colisions/cobalt_02.webp" },
-  { jpeg: "/assets/imgs/colisions/cobalt_03.jpeg", webp: "/assets/imgs/colisions/cobalt_03.webp" },
+  "/assets/imgs/colisions/civic_01.webp",
+  "/assets/imgs/colisions/civic_02.webp",
+  "/assets/imgs/colisions/civic_03.webp",
+  "/assets/imgs/colisions/civic_04.webp",
+  "/assets/imgs/colisions/cobalt_01.webp",
+  "/assets/imgs/colisions/cobalt_02.webp",
+  "/assets/imgs/colisions/cobalt_03.webp",
 ];
 
+// Lazy preload apenas da próxima imagem para economizar memória
+const preloadImage = (src: string) => {
+  const img = new Image();
+  img.src = src;
+};
 
 const Hero: React.FC = () => {
   const [index, setIndex] = useState(0);
   const [fade, setFade] = useState(false);
   const [showFloating, setShowFloating] = useState(false);
+  const preloadedRef = useRef(new Set<number>([0]));
 
-  // Pré-carregar apenas a primeira imagem (LCP otimizado)
+  // Preload da primeira e próxima imagem (LCP optimization)
   useEffect(() => {
-    const firstImage = new Image();
-    firstImage.src = images[0].webp;
+    preloadImage(images[0]);
+    preloadImage(images[1]);
+    preloadedRef.current.add(0);
+    preloadedRef.current.add(1);
   }, []);
 
-  // Pré-carregar restante das imagens
-  useEffect(() => {
-    images.forEach((img, i) => {
-      if (i === 0) return;
-      const preload = new Image();
-      preload.src = img.webp;
-    });
-  }, []);
-
-  // Troca automática de imagens
+  // Rotação automática com lazy load de próximas imagens
   useEffect(() => {
     const timer = setInterval(() => {
       setFade(true);
       setTimeout(() => {
-        setIndex((prev) => (prev + 1) % images.length);
+        setIndex((prev) => {
+          const nextIdx = (prev + 1) % images.length;
+          
+          // Preload próxima imagem apenas quando necessário
+          if (!preloadedRef.current.has(nextIdx)) {
+            preloadImage(images[nextIdx]);
+            preloadedRef.current.add(nextIdx);
+          }
+          // Preload imagem após a próxima
+          const afterNextIdx = (nextIdx + 1) % images.length;
+          if (!preloadedRef.current.has(afterNextIdx)) {
+            preloadImage(images[afterNextIdx]);
+            preloadedRef.current.add(afterNextIdx);
+          }
+          
+          return nextIdx;
+        });
         setFade(false);
-      }, 350);
+      }, 300);
     }, 5000);
+
     return () => clearInterval(timer);
   }, []);
 
-  // Mostrar floating cards após 1s
+  // Floating cards (somente depois do layout estabilizar)
   useEffect(() => {
-    const timer = setTimeout(() => setShowFloating(true), 150);
+    const timer = setTimeout(() => setShowFloating(true), 400);
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pb-8">
+    <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary via-blue-600 to-blue-800"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-primary via-blue-600 to-blue-800" />
 
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-20 left-20 w-32 h-32 bg-white rounded-full blur-md"></div>
-        <div className="absolute bottom-40 right-20 w-48 h-48 bg-white rounded-full blur-md"></div>
-        <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-accent rounded-full blur-md"></div>
-      </div>
-
-      <div className="container relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-screen py-16">
-          {/* Content */}
-          <div className="text-center lg:text-left space-y-5 my-12">
-            <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
+      <div className="container relative z-10 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Conteúdo */}
+          <div className="text-center lg:text-left space-y-5">
+            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur px-4 py-2 rounded-full">
               <Shield className="h-5 w-5 text-white" />
-              <span className="text-white font-montserrat font-medium">Proteção Garantida 24h</span>
+              <span className="text-white font-medium">
+                Proteção Garantida 24h
+              </span>
             </div>
 
             <h1 className="heading-hero text-white leading-tight">
-              Proteja seu <span className="text-accent">Veículo</span> com Total Segurança
+              Proteja seu <span className="text-accent">Veículo</span>
+              <br /> com Total Segurança
             </h1>
 
-            <p className="text-xl lg:text-2xl text-gray-100 leading-relaxed max-w-2xl">
+            <p className="text-lg sm:text-xl text-gray-100 leading-relaxed max-w-xl mx-auto lg:mx-0">
               A melhor proteção veicular do nordeste com cobertura nacional,
-              assistência 24h e atendimento humanizado. Sua tranquilidade é nossa prioridade.
+              assistência 24h e atendimento humanizado.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
                 "Cobertura Nacional",
                 "Assistência 24/7",
                 "Rastreamento gratuito",
                 "Aprovação Rápida",
               ].map((feature, idx) => (
-                <div key={idx} className="flex items-center space-x-3">
-                  <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0" />
-                  <span className="text-white font-raleway">{feature}</span>
+                <div key={idx} className="flex items-center gap-3 justify-center lg:justify-start">
+                  <CheckCircle className="h-5 w-5 text-green-400" />
+                  <span className="text-white">{feature}</span>
                 </div>
               ))}
             </div>
 
-            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 pt-4">
+            <div className="flex flex-col gap-4 pt-4 w-full sm:flex-row sm:justify-start justify-center">
               <Link
                 to="/whatsapp"
-                className="btn-accent text-lg px-8 py-4 inline-flex items-center justify-center space-x-3 group"
+                className="
+                  btn-accent w-full sm:w-auto
+                  flex items-center justify-center gap-3
+                  text-center
+                "
               >
-                <Shield className="h-6 w-6 group-hover:animate-pulse" />
-                <span>Fazer Cotação Grátis</span>
+                <Shield className="h-6 w-6" />
+                Fazer Cotação Grátis
               </Link>
 
               <a
                 href="tel:+558440420869"
-                className="btn-outline text-lg px-8 py-4 inline-flex items-center justify-center space-x-3 bg-white/10 backdrop-blur-sm  text-white hover:bg-white hover:text-primary"
+                className="
+                  btn-outline w-full sm:w-auto
+                  flex items-center justify-center gap-3
+                  bg-white/10 text-white
+                  hover:bg-white hover:text-primary
+                  text-center
+                "
               >
                 <Phone className="h-6 w-6" />
-                <span>(84) 4042-0869</span>
+                (84) 4042-0869
               </a>
             </div>
+
           </div>
 
-            {/* Visual/Image rotativa */}
-            <div className="relative">
-              <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-8 shadow-lg relative">
-                <picture>
-                  {/* Adiciona srcset para tamanhos responsivos */}
-                  <source
-                    srcSet={`${images[index].webp.replace(".webp", "-small.webp")} 480w, 
-                            ${images[index].webp.replace(".webp", "-medium.webp")} 768w, 
-                            ${images[index].webp} 1280w`}
-                    type="image/webp"
-                  />
-                  <source
-                    srcSet={`${images[index].jpeg.replace(".jpeg", "-small.jpeg")} 480w, 
-                            ${images[index].jpeg.replace(".jpeg", "-medium.jpeg")} 768w, 
-                            ${images[index].jpeg} 1280w`}
-                    type="image/jpeg"
-                  />
-                  <img
-                    src={images[index].jpeg}
-                    alt="Carro protegido pela Lock Proteção Veicular"
-                    className={`w-full h-96 object-cover rounded-2xl shadow-md transition-opacity duration-500 ease-in-out ${
-                      fade ? "opacity-0" : "opacity-100"
-                    }`}
-                    loading={index === 0 ? "eager" : "lazy"}  // a primeira imagem deve ser eager para o LCP
-                    decoding="async"
-                    width="800"
-                    height="450"
-                    fetchPriority={index === 0 ? "high" : "auto"}
-                  />
-                </picture>
+          {/* Imagem (CLS ZERO) */}
+          <div className="relative">
+            <div
+              className="
+                bg-white/20 backdrop-blur rounded-3xl p-4 sm:p-6 shadow-lg
+                h-[260px] sm:h-[320px] lg:h-[420px]
+              "
+            >
+              <img
+                src={images[index]}
+                alt="Carro protegido pela Lock Proteção Veicular"
+                className={`w-full h-full object-cover rounded-2xl transition-opacity duration-500 ${
+                  fade ? "opacity-0" : "opacity-100"
+                }`}
+                loading={index === 0 ? "eager" : "lazy"}
+                fetchPriority={index === 0 ? "high" : "auto"}
+              />
 
-              {/* Floating Cards */}
+              {/* Floating cards (desktop only) */}
               {showFloating && (
                 <>
-                  {/* Card Nossa Proteção */}
                   <motion.div
-                    animate={{ scale: [1, 1.07, 1] }}
-                    transition={{ duration: 2, ease: "easeInOut", repeat: Infinity }}
-                    className="absolute -top-6 -left-6 bg-white rounded-xl p-4 shadow-md"
+                    animate={{ scale: [1, 1.06, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="hidden md:block absolute -top-6 -left-6 bg-white rounded-xl p-4 shadow-md"
                   >
-                    <div className="flex items-center space-x-3">
-                      <div className="bg-green-100 p-2 rounded-full">
-                        <CheckCircle className="h-6 w-6 text-green-600" />
-                      </div>
+                    <div className="flex items-center gap-3">
+                      <CheckCircle className="h-6 w-6 text-green-600" />
                       <div>
-                        <p className="font-montserrat font-semibold text-gray-800">Nossa</p>
+                        <p className="font-semibold">Nossa</p>
                         <p className="text-sm text-gray-600">Proteção</p>
                       </div>
                     </div>
                   </motion.div>
 
-                  {/* Card Antes / Depois */}
                   <motion.div
-                    animate={{ scale: [1, 1.07, 1] }}
-                    transition={{ duration: 2, ease: "easeInOut", repeat: Infinity }}
-                    className="absolute -bottom-6 -right-6 bg-red-600 rounded-xl p-4 shadow-md"
+                    animate={{ scale: [1, 1.06, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="hidden md:block absolute -bottom-6 -right-6 bg-red-600 rounded-xl p-4 shadow-md"
                   >
-                    <div className="flex items-center space-x-3">
-                      <Shield className="h-8 w-8 text-white" />
-                      <div>
-                        <p className="font-montserrat font-bold text-white">Antes / Depois </p>
-                        <p className="text-sm text-white">100% Protegidos</p>
-                      </div>
-                    </div>
+                    <p className="font-bold text-white">Antes / Depois</p>
+                    <p className="text-sm text-white">100% Protegidos</p>
                   </motion.div>
                 </>
               )}
@@ -187,13 +188,18 @@ const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-center animate-bounce z-10">
-        <div className="w-6 h-10 border-2 border-white rounded-full flex justify-center items-start p-1">
-          <div className="w-1 h-3 bg-white rounded-full mt-2 animate-pulse"></div>
+      {/* Scroll Down Indicator */}
+        <div className="
+          absolute bottom-4 left-1/2 -translate-x-1/2
+          flex flex-col items-center
+          text-white
+          animate-bounce
+          z-20
+        ">
+          <ChevronDown className="h-6 w-6" />
+          <span className="text-sm mt-1">Role para ver mais</span>
         </div>
-        <p className="text-white text-sm mt-2 font-raleway">Role para baixo</p>
-      </div>
+
     </section>
   );
 };

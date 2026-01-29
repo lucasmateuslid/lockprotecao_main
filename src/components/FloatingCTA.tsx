@@ -1,65 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Calculator, Phone, MessageCircle, ChevronUp, X } from 'lucide-react';
 
-const FloatingCTA: React.FC = () => {
-  const navigate = useNavigate();
-  const [isVisible, setIsVisible] = useState(false);
-  const [showScrollTop, setShowScrollTop] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [showWhatsAppBubble, setShowWhatsAppBubble] = useState(false);
-  const holdTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const mobileClicked = useRef(false);
-
-  // Mostrar o CTA após 2s e monitorar scroll
-  useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), 2000);
-    const handleScroll = () => setShowScrollTop(window.pageYOffset > 300);
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('scroll', handleScroll);
-      if (holdTimeout.current) clearTimeout(holdTimeout.current);
-    };
-  }, []);
-
-  // Mostrar bolha de mensagem do WhatsApp após 10 segundos
-  useEffect(() => {
-    if (isVisible) {
-      const bubbleTimer = setTimeout(() => setShowWhatsAppBubble(true), 10000);
-      return () => clearTimeout(bubbleTimer);
-    }
-  }, [isVisible]);
-
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  const openWhatsApp = () => {
-    const phone = '558440420869';
-    const message =
-      'Olá! Vim pelo site e gostaria de conhecer os planos de proteção veicular da Lock Proteção.';
-    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
-  };
-
-  const showExpanded = () => {
-    setIsExpanded(true);
-    if (holdTimeout.current) clearTimeout(holdTimeout.current);
-    holdTimeout.current = setTimeout(() => setIsExpanded(false), 5000);
-  };
-
-  const handleMouseEnter = () => showExpanded();
-
-  const handleMobileClick = () => {
-    if (!mobileClicked.current) {
-      mobileClicked.current = true;
-      showExpanded();
-      setTimeout(() => {
-        mobileClicked.current = false;
-      }, 5000);
-    }
-  };
-
+const FloatingCTAContent: React.FC<{
+  isVisible: boolean;
+  showScrollTop: boolean;
+  isExpanded: boolean;
+  showWhatsAppBubble: boolean;
+  scrollToTop: () => void;
+  openWhatsApp: () => void;
+  showExpanded: () => void;
+  handleMobileClick: () => void;
+  setShowWhatsAppBubble: (val: boolean) => void;
+}> = ({
+  isVisible,
+  showScrollTop,
+  isExpanded,
+  showWhatsAppBubble,
+  scrollToTop,
+  openWhatsApp,
+  showExpanded,
+  handleMobileClick,
+  setShowWhatsAppBubble,
+}) => {
   if (!isVisible) return null;
 
   return (
@@ -127,7 +90,7 @@ const FloatingCTA: React.FC = () => {
 
           {/* CTA principal */}
           <button
-            onMouseEnter={handleMouseEnter}
+            onMouseEnter={showExpanded}
             onClick={handleMobileClick}
             className="btn-accent flex items-center space-x-2 shadow-lg animate-bounce-gentle"
           >
@@ -151,4 +114,88 @@ const FloatingCTA: React.FC = () => {
   );
 };
 
-export default FloatingCTA;
+const FloatingCTA: React.FC = () => {
+  const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [showWhatsAppBubble, setShowWhatsAppBubble] = useState(false);
+  const holdTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const mobileClicked = useRef(false);
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Throttled scroll handler - usar requestIdleCallback para não bloquear main thread
+  const handleScroll = useCallback(() => {
+    if (scrollTimeoutRef.current) return;
+    
+    scrollTimeoutRef.current = setTimeout(() => {
+      setShowScrollTop(window.pageYOffset > 300);
+      scrollTimeoutRef.current = null;
+    }, 100); // Throttle de 100ms
+  }, []);
+
+  // Mostrar o CTA após 2s e monitorar scroll
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 2000);
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', handleScroll);
+      if (holdTimeout.current) clearTimeout(holdTimeout.current);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    };
+  }, [handleScroll]);
+
+  // Mostrar bolha de mensagem do WhatsApp após 10 segundos
+  useEffect(() => {
+    if (isVisible) {
+      const bubbleTimer = setTimeout(() => setShowWhatsAppBubble(true), 10000);
+      return () => clearTimeout(bubbleTimer);
+    }
+  }, [isVisible]);
+
+  const scrollToTop = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  const openWhatsApp = useCallback(() => {
+    const phone = '558440420869';
+    const message =
+      'Olá! Vim pelo site e gostaria de conhecer os planos de proteção veicular da Lock Proteção.';
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
+  }, []);
+
+  const showExpanded = useCallback(() => {
+    setIsExpanded(true);
+    if (holdTimeout.current) clearTimeout(holdTimeout.current);
+    holdTimeout.current = setTimeout(() => setIsExpanded(false), 5000);
+  }, []);
+
+  const handleMobileClick = useCallback(() => {
+    if (!mobileClicked.current) {
+      mobileClicked.current = true;
+      showExpanded();
+      setTimeout(() => {
+        mobileClicked.current = false;
+      }, 5000);
+    }
+  }, [showExpanded]);
+
+  return (
+    <FloatingCTAContent
+      isVisible={isVisible}
+      showScrollTop={showScrollTop}
+      isExpanded={isExpanded}
+      showWhatsAppBubble={showWhatsAppBubble}
+      scrollToTop={scrollToTop}
+      openWhatsApp={openWhatsApp}
+      showExpanded={showExpanded}
+      handleMobileClick={handleMobileClick}
+      setShowWhatsAppBubble={setShowWhatsAppBubble}
+    />
+  );
+};
+
+export default React.memo(FloatingCTA);

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Phone, Mail, MapPin, Clock, MessageCircle, Send, CheckCircle } from 'lucide-react';
-import "leaflet/dist/leaflet.css";
+import { loadLeafletCSS } from '../utils/lazyLoadLeaflet';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +12,11 @@ const Contact: React.FC = () => {
   });
   
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // Lazy load Leaflet CSS apenas quando página Contact é renderizada
+  useEffect(() => {
+    loadLeafletCSS();
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
