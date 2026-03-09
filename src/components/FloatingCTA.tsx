@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { Calculator, Phone, MessageCircle, ChevronUp, X } from 'lucide-react';
 
 const FloatingCTAContent: React.FC<{
@@ -26,8 +26,8 @@ const FloatingCTAContent: React.FC<{
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 no-print">
-      <div className="flex flex-col items-end space-y-3 relative">
+    <div className="fixed bottom-4 right-3 sm:bottom-6 sm:right-6 z-50 no-print max-w-[calc(100vw-1rem)]">
+      <div className="flex flex-col items-end space-y-2 sm:space-y-3 relative">
 
         {/* Scroll to top */}
         {showScrollTop && (
@@ -42,25 +42,25 @@ const FloatingCTAContent: React.FC<{
 
         {/* Bolha de mensagem do WhatsApp */}
         {showWhatsAppBubble && (
-          <div className="absolute right-full mr-3 bottom-1 bg-white text-gray-800 px-4 py-3 rounded-2xl shadow-xl border border-gray-200 animate-fade-in flex items-center space-x-2">
-            <p className="font-medium text-sm">Quer mais informações? <br />Vem falar conosco!!</p>
+          <div className="absolute right-0 bottom-full mb-3 bg-white text-gray-800 px-3 sm:px-4 py-3 rounded-2xl shadow-xl border border-gray-200 animate-fade-in flex items-start gap-2 w-[220px] sm:w-[250px]">
+            <p className="font-medium text-sm leading-snug">Quer mais informações?<br />Vem falar conosco!</p>
             <button
               onClick={() => setShowWhatsAppBubble(false)}
-              className="text-gray-400 hover:text-gray-600"
+              className="text-gray-400 hover:text-gray-600 shrink-0 mt-0.5"
               aria-label="Fechar"
             >
               <X className="w-4 h-4" />
             </button>
-            <div className="absolute -right-2 bottom-3 w-3 h-3 bg-white rotate-45 border-b border-r border-gray-200"></div>
+            <div className="absolute right-16 sm:right-20 -bottom-1.5 w-3 h-3 bg-white rotate-45 border-b border-r border-gray-200"></div>
           </div>
         )}
 
         {/* Botões expandidos */}
         {isExpanded && (
-          <div className="flex flex-col space-y-2 animate-fade-in">
+          <div className="flex flex-col space-y-2 animate-fade-in mb-1">
             <Link
               to="/pwr-cotacao"
-              className="bg-primary hover:bg-blue-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 group"
+              className="bg-primary hover:bg-blue-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110"
               title="Fazer Cotação"
             >
               <Calculator className="h-6 w-6" />
@@ -77,35 +77,31 @@ const FloatingCTAContent: React.FC<{
         )}
 
         {/* Botões principais */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           {/* WhatsApp */}
           <button
             onClick={openWhatsApp}
-            className="relative bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 whatsapp-pulse flex items-center space-x-2"
+            className="relative bg-green-500 hover:bg-green-600 text-white px-3 sm:px-4 py-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 whatsapp-pulse flex items-center gap-2"
             title="Falar no WhatsApp"
           >
             <MessageCircle className="h-6 w-6" />
-            <span className="hidden sm:block font-montserrat font-semibold">WhatsApp</span>
+            <span className="hidden md:block font-montserrat font-semibold whitespace-nowrap">WhatsApp</span>
           </button>
 
           {/* CTA principal */}
-          <button
+          <Link
+            to="/pwr-cotacao"
             onMouseEnter={showExpanded}
             onClick={handleMobileClick}
-            className="btn-accent flex items-center space-x-2 shadow-lg animate-bounce-gentle"
+            className="btn-accent px-4 sm:px-6 py-3 flex items-center justify-center shadow-lg whitespace-nowrap"
+            title="Fazer Cotação"
           >
-            <Link
-              to="/pwr-cotacao"
-              className="font-montserrat font-semibold"
-              title="Fazer Cotação"
-            >
-              Cotar Agora
-            </Link>
-          </button>
+            <span className="font-montserrat font-semibold">Cotar Agora</span>
+          </Link>
         </div>
 
         {/* Pulsing indicator */}
-        <div className="absolute -top-1 -right-1 w-4 h-4">
+        <div className="absolute -top-1 -right-1 w-3.5 h-3.5 sm:w-4 sm:h-4">
           <div className="absolute inset-0 bg-accent rounded-full animate-ping opacity-75"></div>
           <div className="absolute inset-0 bg-accent rounded-full"></div>
         </div>
@@ -115,7 +111,6 @@ const FloatingCTAContent: React.FC<{
 };
 
 const FloatingCTA: React.FC = () => {
-  const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);

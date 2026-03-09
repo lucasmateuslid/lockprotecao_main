@@ -7,10 +7,12 @@ declare global {
   }
 }
 
-export function useGTMPageView() {
+export function useGTMPageView(enabled = true) {
   const location = useLocation();
 
   useEffect(() => {
+    if (!enabled) return;
+
     if (window.dataLayer) {
       window.dataLayer.push({
         event: "pageview",
@@ -18,5 +20,5 @@ export function useGTMPageView() {
         page_title: document.title,
       });
     }
-  }, [location]);
+  }, [enabled, location]);
 }

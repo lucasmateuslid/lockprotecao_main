@@ -19,7 +19,7 @@ const plans: Plan[] = [
     features: [
       '35 mil terceiros',
       '400km de reboque',
-      '50% de parabrisa e retrovisor',
+      '50% de para-brisa e retrovisor',
       'Guincho 24h',
       'Assistência completa',
       'Assistência 24h',
@@ -35,7 +35,7 @@ const plans: Plan[] = [
     features: [
       '55 mil terceiros',
       '600km de reboque',
-      '70% parabrisa e retrovisor',
+      '70% para-brisa e retrovisor',
       'Carro reserva 5 dias',
       'Assistência 24h',
       'Rastreamento',
@@ -50,7 +50,7 @@ const plans: Plan[] = [
     features: [
       '75 mil terceiros',
       '1000km de reboque',
-      '90% parabrisa e retrovisor',
+      '90% para-brisa e retrovisor',
       'Carro reserva 10 dias',
       'Assistência 24h',
       'Rastreamento',
@@ -60,62 +60,96 @@ const plans: Plan[] = [
   },
 ];
 
-const PlanCard: React.FC<{ plan: Plan; orderClass: string }> = ({ plan, orderClass }) => {
+const PlanCard: React.FC<{ plan: Plan; orderClass: string }> = ({
+  plan,
+  orderClass,
+}) => {
   const glowAnimation = plan.popular ? 'animate-pulse-glow' : '';
+
+  const highlightNumbers = (text: string) => {
+    const regex = /(\d+\s?mil|\d+km|\d+%|\d+\s?dias)/g;
+    const parts = text.split(regex);
+
+    return parts.map((part, i) =>
+      regex.test(part) ? (
+        <strong key={i} className="text-primary font-semibold">
+          {part}
+        </strong>
+      ) : (
+        <React.Fragment key={i}>{part}</React.Fragment>
+      )
+    );
+  };
+
   return (
     <div
-      className={`relative bg-white rounded-3xl border-2 ${plan.color} p-8 transition-all duration-300 transform hover:shadow-2xl hover:scale-105 ${orderClass} ${
-        plan.popular ? 'lg:scale-110 shadow-xl' : 'hover:shadow-xl'
-      } ${glowAnimation} animate-fade-in`}
+      className={`relative bg-white rounded-3xl border-2 ${plan.color} p-8
+      transition-all duration-300 transform hover:shadow-2xl hover:-translate-y-2
+      ${orderClass}
+      ${
+        plan.popular
+          ? 'lg:scale-110 shadow-2xl ring-2 ring-primary/20'
+          : 'hover:shadow-xl'
+      }
+      ${glowAnimation}
+      animate-fade-in`}
     >
-      {/* Popular Badge com animação bounce */}
+      {/* Badge */}
       {plan.popular && (
-        <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 animate-bounce-slow">
-          <div className="bg-accent text-white px-6 py-2 rounded-full flex items-center space-x-2 shadow-lg">
+        <div className="absolute -top-5 left-1/2 -translate-x-1/2 animate-bounce-slow">
+          <div className="bg-primary text-white px-6 py-2 rounded-full flex items-center space-x-2 shadow-lg">
             <Star className="h-4 w-4 fill-current" />
-            <span className="font-montserrat font-semibold text-sm">Mais Popular</span>
+            <span className="font-semibold text-sm tracking-wide">
+              MAIS CONTRATADO
+            </span>
           </div>
         </div>
       )}
 
-      {/* Plan Header com fade-in */}
-      <div className="text-center mb-6 animate-fade-in delay-100">
-        <h3 className="heading-lg text-text mb-1">{plan.name}</h3>
-        <p className="text-gray-600 mb-4">{plan.description}</p>
-        <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-accent to-primary text-white px-4 py-2 rounded-full shadow-md">
+      {/* Header */}
+      <div className="text-center mb-8 animate-fade-in delay-100">
+        <h3 className="text-2xl font-bold text-text mb-2">
+          Plano {plan.name}
+        </h3>
+        <p className="text-gray-600 mb-5 text-sm leading-relaxed">
+          {plan.description}
+        </p>
+
+        <div className="inline-flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-full shadow-md">
           <Zap className="h-4 w-4" />
-          <span className="font-semibold">Benefícios em Destaque</span>
+          <span className="font-semibold text-sm">
+            Benefícios em Destaque
+          </span>
         </div>
       </div>
 
-      {/* Features com entrance animation */}
-      <div className="space-y-3 mb-6">
+      {/* Features */}
+      <div className="space-y-4 mb-8">
         {plan.features.map((feature, index) => (
           <div
             key={index}
             className="flex items-start space-x-3 animate-slide-up"
-            style={{ animationDelay: `${index * 100}ms` }}
+            style={{ animationDelay: `${index * 80}ms` }}
           >
-            <div className="bg-green-100 rounded-full p-2 mt-1">
-              <Check className="h-4 w-4 text-green-600" />
+            <div className="bg-primary/10 rounded-full p-2 mt-1">
+              <Check className="h-4 w-4 text-primary" />
             </div>
-            <span className="text-gray-700 font-medium">
-              {/* Destaque em negrito para magnitudes */}
-              {feature.replace(/(\d+ mil|\d+km|\d+%| \d+ dias)/g, '<strong>$1</strong>')}
+
+            <span className="text-gray-700 text-sm font-medium leading-relaxed">
+              {highlightNumbers(feature)}
             </span>
           </div>
         ))}
       </div>
 
-      {/* CTA Button com hover animation */}
+      {/* CTA */}
       <Link
         to="/pwr-cotacao"
-        className={`${plan.buttonClass} w-full text-center block mb-3 transition-transform duration-200 hover:scale-105`}
+        className={`${plan.buttonClass} w-full text-center block mb-3 transition-all duration-200 hover:scale-105`}
       >
         Fazer Simulação
       </Link>
 
-      {/* Additional Info */}
       <p className="text-center text-sm text-gray-500">
         Sem carência • Aprovação imediata
       </p>
@@ -125,41 +159,45 @@ const PlanCard: React.FC<{ plan: Plan; orderClass: string }> = ({ plan, orderCla
 
 const FeaturedPlans: React.FC = () => {
   return (
-    <section className="section bg-gradient-to-b from-gray-50 to-white relative">
-      {/* Animações Globais (usando Tailwind Animate ou inline keyframes) */}
+    <section className="section bg-gray-50 relative">
       <style>{`
         @keyframes pulse-glow {
-          0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
-          50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.6); }
+          0%, 100% { box-shadow: 0 0 20px rgba(37, 99, 235, 0.25); }
+          50% { box-shadow: 0 0 35px rgba(37, 99, 235, 0.4); }
         }
+
         @keyframes fade-in {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
         }
+
         @keyframes slide-up {
           from { opacity: 0; transform: translateY(10px); }
           to { opacity: 1; transform: translateY(0); }
         }
+
         @keyframes bounce-slow {
           0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-5px); }
         }
-        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
-        .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }
-        .animate-slide-up { animation: slide-up 0.3s ease-out forwards; }
+
+        .animate-pulse-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
+        .animate-fade-in { animation: fade-in 0.6s ease-out forwards; }
+        .animate-slide-up { animation: slide-up 0.4s ease-out forwards; }
         .animate-bounce-slow { animation: bounce-slow 2s ease-in-out infinite; }
         .delay-100 { animation-delay: 100ms; }
       `}</style>
 
       <div className="container">
-        {/* Header com fade-in */}
+        {/* Header */}
         <div className="text-center mb-12 animate-fade-in">
           <h2 className="heading-xl text-primary mb-4">
             Planos por Benefícios — Encontre o Ideal para{' '}
             <span className="text-accent">Seu Veículo</span>
           </h2>
           <p className="text-lg-responsive text-gray-600 max-w-3xl mx-auto">
-            Compare os benefícios de forma simples e escolha a proteção que se adapta ao seu dia a dia. Fale conosco para personalizar!
+            Compare os benefícios de forma simples e escolha a proteção ideal
+            para o seu dia a dia.
           </p>
         </div>
 
@@ -172,20 +210,32 @@ const FeaturedPlans: React.FC = () => {
                 : plan.name === 'Ouro'
                 ? 'order-2 lg:order-1'
                 : 'order-3';
-            return <PlanCard key={index} plan={plan} orderClass={orderClass} />;
+
+            return (
+              <PlanCard
+                key={index}
+                plan={plan}
+                orderClass={orderClass}
+              />
+            );
           })}
         </div>
 
-        {/* Bottom CTA com fade-in */}
+        {/* Bottom CTA */}
         <div className="text-center mt-16 animate-fade-in delay-100">
           <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
             <div className="flex items-center justify-center space-x-2 mb-4">
-              <Zap className="h-8 w-8 text-accent" />
-              <h3 className="heading-md text-text">Indeciso? Nós Ajudamos!</h3>
+              <Zap className="h-8 w-8 text-primary" />
+              <h3 className="heading-md text-text">
+                Indeciso? Nós Ajudamos!
+              </h3>
             </div>
+
             <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-              Deixe nossos especialistas compararem os planos e recomendarem o melhor para você, sem compromisso.
+              Fale com nossos especialistas e receba uma recomendação
+              personalizada para o seu veículo.
             </p>
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/pwr-cotacao"
@@ -193,6 +243,7 @@ const FeaturedPlans: React.FC = () => {
               >
                 Fazer Simulação
               </Link>
+
               <a
                 href="tel:+558440420869"
                 className="btn-outline2 transition-transform duration-200 hover:scale-105"

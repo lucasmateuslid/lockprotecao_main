@@ -7,7 +7,7 @@
 
     <!-- SEO -->
     <meta name="description" content="Proteja seu veículo com a Lock Proteção Veicular. Planos de associação com cobertura completa e atendimento 24h." />
-    <meta name="keywords" content="proteção veicular, seguro auto, planos veiculares, associação veicular, cobertura auto" />
+    <meta name="keywords" content="proteção veicular, seguro auto, planos veiculares, associação veicular, cobertura auto, assistência veicular, rastreamento, seguro moto, proteção moto" />
     <meta name="author" content="Lock Proteção Veicular" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <meta name="robots" content="index, follow" />
@@ -30,7 +30,21 @@
     <!-- Favicons -->
     <link rel="icon" href="/assets/imgs/ico/favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" href="/assets/imgs/ico/apple-touch-icon.png" />
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="manifest" href="/assets/imgs/ico/site.webmanifest" />
+
+    <!-- ✅ Preload hero image com srcset — browser baixa a variante certa por dispositivo -->
+    <link
+      rel="preload"
+      as="image"
+      href="/assets/imgs/colisions/optimized/civic_01-1200w.webp"
+      imagesrcset="
+        /assets/imgs/colisions/optimized/civic_01-400w.webp 400w,
+        /assets/imgs/colisions/optimized/civic_01-800w.webp 800w,
+        /assets/imgs/colisions/optimized/civic_01-1200w.webp 1200w
+      "
+      imagesizes="(max-width: 640px) 400px, (max-width: 1024px) 800px, 1200px"
+      fetchpriority="high"
+    />
 
     <!-- DNS Prefetch & Preconnect -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
@@ -58,47 +72,64 @@
     <link rel="preload" href="./src/index.css" as="style" onload="this.rel='stylesheet'" />
     <noscript><link rel="stylesheet" href="./src/index.css" /></noscript>
 
-    <!-- Google Tag Manager (HEAD) -->
+    <!-- Tracking bootstrap (deferred GTM/Meta para proteger LCP/TBT) -->
     <script>
-      (function(w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-        f.parentNode.insertBefore(j, f);
-      })(window, document, 'script', 'dataLayer', 'GTM-PXRN7NQR');
-    </script>
+      window.dataLayer = window.dataLayer || [];
 
-    <!-- Facebook Pixel -->
-    <script>
-      !(function(f, b, e, v, n, t, s) {
-        if (f.fbq) return;
-        n = f.fbq = function() {
-          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
-        };
-        if (!f._fbq) f._fbq = n;
-        n.push = n;
-        n.loaded = !0;
-        n.version = '2.0';
-        n.queue = [];
-        t = b.createElement(e);
-        t.async = !0;
-        t.defer = !0;
-        t.src = v;
-        s = b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t, s);
-      })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+      const loadScript = (src) =>
+        new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.async = true;
+          script.src = src;
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
 
-      document.addEventListener('DOMContentLoaded', () => {
+      const loadTrackers = () => {
+        window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        loadScript('https://www.googletagmanager.com/gtm.js?id=GTM-PXRN7NQR').catch(() => {});
+
+        !(function(f, b, e, v, n, t, s) {
+          if (f.fbq) return;
+          n = f.fbq = function() {
+            n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+          };
+          if (!f._fbq) f._fbq = n;
+          n.push = n;
+          n.loaded = !0;
+          n.version = '2.0';
+          n.queue = [];
+          t = b.createElement(e);
+          t.async = !0;
+          t.src = v;
+          s = b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t, s);
+        })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+
         if (window.fbq) {
-          fbq('init', '803178395788966');
-          fbq('track', 'PageView');
+          window.fbq('init', '803178395788966');
+          window.fbq('track', 'PageView');
         }
-      });
+      };
+
+      const scheduleTrackers = () => {
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(loadTrackers, { timeout: 3000 });
+          return;
+        }
+        setTimeout(loadTrackers, 3000);
+      };
+
+      if (document.readyState === 'complete') {
+        scheduleTrackers();
+      } else {
+        window.addEventListener('load', scheduleTrackers, { once: true });
+      }
     </script>
+
+    <!-- Google Search Console -->
+    <meta name="google-site-verification" content="9JwnBkLmI8B7OPyjdsaHiYp0VTRY1LY8g7P6FIpLQ6Q" />
 
     <!-- Preload JS principal -->
     <link rel="modulepreload" href="/src/main.tsx" />

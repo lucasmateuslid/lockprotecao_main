@@ -45,9 +45,9 @@ const Header: React.FC = () => {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled ? 'bg-white shadow-lg py-2' : 'bg-transparent py-4'
     }`}>
-      <div className="container flex items-center justify-between">
+      <div className="container flex items-center justify-between max-[390px]:px-3">
         {/* Logo */}
-        <Link to="/" className="flex items-center">
+        <Link to="/" className="flex items-center max-[390px]:max-w-[118px]">
           <img
             src={
               isScrolled
@@ -55,15 +55,16 @@ const Header: React.FC = () => {
                 : 'https://lockprotecao.com.br/wp-content/uploads/2024/03/lockpv-branca-1024x600.webp'
             }
             alt="Lock Proteção"
-            className="h-12 w-auto"
-            loading="lazy"
+            className="h-12 w-auto max-[390px]:h-9"
+            loading="eager"
+            decoding="async"
             width={143} 
             height={84}
           />
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden lg:flex items-center space-x-8">
           {navItems.map((item) => (
             <Link
               key={item.name}
@@ -83,7 +84,7 @@ const Header: React.FC = () => {
         </nav>
 
         {/* Phone & CTA Desktop */}
-        <div className="hidden md:flex items-center space-x-4">
+        <div className="hidden lg:flex items-center space-x-4">
           <a
             href="tel:08005918701"
             className={`flex items-center space-x-2 font-montserrat font-medium ${
@@ -100,7 +101,7 @@ const Header: React.FC = () => {
 
         {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden p-2"
+          className="lg:hidden p-2 max-[390px]:p-1.5"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -114,7 +115,7 @@ const Header: React.FC = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <nav className="md:hidden mt-4 bg-white rounded-lg shadow-lg p-4 flex flex-col space-y-2">
+        <nav className="lg:hidden mt-4 bg-white rounded-lg shadow-lg p-4 flex flex-col space-y-2">
           {navItems.map((item) => (
             <Link
               key={item.name}

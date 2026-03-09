@@ -3,6 +3,22 @@ import { Link } from 'react-router-dom';
 import { Shield, CheckCircle2, Phone, MessageCircle } from 'lucide-react';
 import { useGTMPageView } from '../hooks/useGTMPageView';
 
+const COLLISIONS_BASE = '/assets/imgs/colisions/optimized';
+const collisionImages = [
+  'civic_01',
+  'civic_02',
+  'civic_03',
+  'civic_04',
+  'cobalt_01',
+  'cobalt_02',
+  'cobalt_03',
+].map((name) => ({
+  src: `${COLLISIONS_BASE}/${name}-800w.webp`,
+  srcSet: `${COLLISIONS_BASE}/${name}-400w.webp 400w, ${COLLISIONS_BASE}/${name}-800w.webp 800w, ${COLLISIONS_BASE}/${name}-1200w.webp 1200w`,
+}));
+
+const recoveredVehicleSlots = [1, 2, 3, 4];
+
 export default function Thanks() {
   useGTMPageView();
 
@@ -49,11 +65,11 @@ export default function Thanks() {
 
             {/* Message */}
             <p className="text-xl lg:text-2xl text-gray-100 leading-relaxed mb-8 animate-slideUp font-raleway">
-              Você está no primeiro passo para ter seu veículo protegido!
+              Você deu o primeiro passo para proteger o seu bem.
             </p>
 
             <p className="text-lg md:text-xl text-gray-100 opacity-90 mb-12 animate-slideUp font-raleway">
-              Em alguns instantes nossos consultores irão enviar o melhor plano para seu veículo.
+              Recebemos seus dados com sucesso. Agora nossa equipe vai cuidar do restante com atenção e agilidade.
             </p>
 
             {/* CTA Buttons */}
@@ -121,6 +137,57 @@ export default function Thanks() {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 lg:py-20 bg-gray-50 border-y border-gray-100">
+        <div className="container">
+          <div className="max-w-5xl mx-auto text-center mb-8">
+            <h2 className="heading-lg text-primary">
+              Associados que confiaram na nossa proteção
+            </h2>
+          </div>
+
+          <div className="max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {collisionImages.map((image, index) => (
+              <div
+                key={index}
+                className="rounded-2xl overflow-hidden bg-white shadow-custom border border-gray-100"
+              >
+                <img
+                  src={image.src}
+                  srcSet={image.srcSet}
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  alt="Veículo de associado atendido pela Lock"
+                  className="w-full h-40 sm:h-48 object-cover"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 lg:py-20 bg-white">
+        <div className="container">
+          <div className="max-w-5xl mx-auto text-center mb-8">
+            <h2 className="heading-lg text-primary">
+              Associados que confiaram no nosso cuidado e recuperação
+            </h2>
+          </div>
+
+          <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {recoveredVehicleSlots.map((slot) => (
+              <div
+                key={slot}
+                className="rounded-2xl border-2 border-dashed border-primary/30 bg-primary/5 p-6 min-h-[180px] flex items-center justify-center text-center"
+              >
+                <p className="text-primary font-montserrat font-semibold">
+                  Espaço para foto de veículo recuperado
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

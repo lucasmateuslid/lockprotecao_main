@@ -8,6 +8,7 @@ import {
   Globe,
   ArrowRight,
   ChevronDown,
+  CheckCircle2,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -17,6 +18,9 @@ const apps = [
     description:
       "Gerencie sua conta, consulte coberturas, solicite assistência e visualize informações do seu plano.",
     icon: ShieldCheck,
+    iconImage: "/assets/imgs/apps/optimized/app-associado-vermelho-256w.webp",
+    iconSrcSet:
+      "/assets/imgs/apps/optimized/app-associado-vermelho-128w.webp 128w, /assets/imgs/apps/optimized/app-associado-vermelho-256w.webp 256w, /assets/imgs/apps/optimized/app-associado-vermelho-512w.webp 512w",
     platforms: [
       {
         name: "Android",
@@ -47,6 +51,9 @@ const apps = [
     description:
       "Rastreamento em tempo real, alertas e histórico de eventos conectados diretamente à plataforma Lock.",
     icon: Wifi,
+    iconImage: "/assets/imgs/apps/optimized/app-rastreamento-azul-256w.webp",
+    iconSrcSet:
+      "/assets/imgs/apps/optimized/app-rastreamento-azul-128w.webp 128w, /assets/imgs/apps/optimized/app-rastreamento-azul-256w.webp 256w, /assets/imgs/apps/optimized/app-rastreamento-azul-512w.webp 512w",
     platforms: [
       {
         name: "Android",
@@ -126,14 +133,14 @@ const FAQItem = ({ faq }: { faq: { q: string; a: string } }) => {
   return (
     <div
       onClick={() => setOpen(!open)}
-      className="bg-white shadow-md rounded-xl p-5 cursor-pointer hover:shadow-xl transition-all duration-300"
+      className="bg-white rounded-xl p-5 shadow-lg cursor-pointer hover:shadow-xl transition-all duration-300"
     >
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold text-gray-900">{faq.q}</h3>
+        <h3 className="text-lg font-semibold text-text">{faq.q}</h3>
         <motion.div
           animate={{ rotate: open ? 180 : 0 }}
           transition={{ duration: 0.25 }}
-          className="text-blue-600"
+          className="text-primary"
         >
           <ChevronDown className="w-6 h-6" />
         </motion.div>
@@ -157,155 +164,249 @@ const FAQItem = ({ faq }: { faq: { q: string; a: string } }) => {
 };
 
 const Apps: React.FC = () => {
+  const [activeAppIndex, setActiveAppIndex] = useState(0);
+  const activeApp = apps[activeAppIndex];
+
   return (
-    <main className="bg-gray-50 min-h-screen font-montserrat">
+    <main className="min-h-screen bg-gray-50">
       {/* HERO */}
-      <section className="bg-gradient-to-b from-blue-700 to-blue-500 text-white py-20 shadow-lg">
-        <div className="container text-center max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-            Tenha a <span className="text-red-600">Lock Proteção</span> na palma da mão
-          </h1>
-          <p className="text-lg md:text-xl text-gray-100 mb-10 leading-relaxed">
-            Baixe os aplicativos oficiais da Lock e gerencie sua proteção
-            veicular com praticidade, segurança e tecnologia.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href="#apps"
-              className="bg-white text-blue-700 font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-gray-100 transition flex items-center gap-2"
-            >
-              <Smartphone className="h-5 w-5" />
-              Ver Aplicativos
-            </a>
-            <a
-              href="https://wa.me/558440420869?text=Ol%C3%A1%2C%20preciso%20de%20ajuda%20com%20os%20aplicativos%20da%20Lock."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md flex items-center gap-2 transition"
-            >
-              Suporte via WhatsApp
-            </a>
+      <section className="bg-gradient-primary text-white pt-32 pb-16">
+        <div className="container">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="heading-hero mb-6">
+              Tenha a <span className="text-accent">Lock Proteção</span> na palma da mão
+            </h1>
+            <p className="text-xl lg:text-2xl opacity-90 leading-relaxed mb-10">
+              Baixe os aplicativos oficiais da Lock e gerencie sua proteção
+              veicular com praticidade, segurança e tecnologia.
+            </p>
+
+            <div className="flex flex-wrap justify-center gap-4">
+              <a
+                href="#apps"
+                className="btn-outline inline-flex items-center gap-2"
+              >
+                <Smartphone className="h-5 w-5" />
+                Ver Aplicativos
+              </a>
+              <a
+                href="https://wa.me/558440420869?text=Ol%C3%A1%2C%20preciso%20de%20ajuda%20com%20os%20aplicativos%20da%20Lock."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-accent inline-flex items-center gap-2"
+              >
+                Suporte via WhatsApp
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
       {/* APPS */}
-      <section id="apps" className="container py-16 grid md:grid-cols-2 gap-10">
-        {apps.map((app, i) => {
-          const Icon = app.icon;
-          return (
-            <div
-              key={i}
-              className="bg-white shadow-md rounded-xl p-8 hover:shadow-xl transition-shadow duration-300"
-            >
-              <div className="flex items-start gap-4 mb-5">
-                <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center">
-                  <Icon className="w-8 h-8 text-blue-600" />
-                </div>
-                <div>
-                  <h2 className="text-2xl font-semibold mb-1 text-primary">
-                    {app.title}
-                  </h2>
-                  <p className="text-gray-700">{app.description}</p>
-                </div>
-              </div>
+      <section id="apps" className="section bg-white">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="heading-xl text-primary mb-4">
+              Nossos <span className="text-accent">Aplicativos</span>
+            </h2>
+            <p className="text-lg-responsive text-gray-600 max-w-3xl mx-auto">
+              Escolha o aplicativo ideal, selecione sua plataforma e faça o download em poucos cliques.
+            </p>
+          </div>
 
-              <div className="flex flex-wrap justify-center gap-3 mt-6">
-                {app.platforms.map((p, j) => {
-                  const PIcon = p.icon;
-                  return (
-                    <a
-                      key={j}
-                      href={p.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition"
-                    >
-                      <PIcon />
-                      {p.name}
-                      <Download className="w-4 h-4 opacity-80" />
-                    </a>
-                  );
-                })}
+          <div className="grid sm:grid-cols-3 gap-4 mb-10">
+            {[
+              "1. Escolha o app ideal",
+              "2. Selecione sua plataforma",
+              "3. Toque para baixar e acessar",
+            ].map((step) => (
+              <div
+                key={step}
+                className="rounded-xl border border-primary/10 bg-primary/5 px-4 py-3 text-sm font-semibold text-primary flex items-center gap-2"
+              >
+                <CheckCircle2 className="w-4 h-4 text-accent shrink-0" />
+                <span>{step}</span>
               </div>
+            ))}
+          </div>
+
+          <div className="grid lg:grid-cols-5 gap-8">
+            <div className="lg:col-span-2 space-y-4">
+              {apps.map((app, i) => {
+                const Icon = app.icon;
+                const isActive = i === activeAppIndex;
+
+                return (
+                  <button
+                    key={app.title}
+                    onClick={() => setActiveAppIndex(i)}
+                    className={`w-full text-left rounded-2xl border p-5 transition-all duration-300 ${
+                      isActive
+                        ? "border-primary bg-primary/5 shadow-custom"
+                        : "border-gray-200 bg-white hover:border-primary/40 hover:shadow-lg"
+                    }`}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="w-16 h-16 rounded-xl border border-gray-200 bg-white shadow-sm flex items-center justify-center p-1.5 shrink-0">
+                        {app.iconImage ? (
+                          <img
+                            src={app.iconImage}
+                            srcSet={app.iconSrcSet}
+                            sizes="64px"
+                            alt={app.title}
+                            className="w-full h-full object-contain rounded-lg"
+                            loading="lazy"
+                          />
+                        ) : (
+                          <Icon className="w-6 h-6" />
+                        )}
+                      </div>
+                      <div>
+                        <h3 className="font-montserrat font-semibold text-primary text-lg">
+                          {app.title}
+                        </h3>
+                        <p className="text-sm text-gray-600 mt-1">
+                          {app.platforms.length} plataforma{app.platforms.length > 1 ? "s" : ""} {app.platforms.length > 1 ? "disponíveis" : "disponível"}
+                        </p>
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
-          );
-        })}
+
+            <div className="lg:col-span-3">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeApp.title}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.25 }}
+                  className="card h-full"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-start gap-4 mb-6">
+                    <div className="w-20 h-20 rounded-2xl border border-gray-200 bg-white shadow-sm flex items-center justify-center p-2 shrink-0">
+                      {activeApp.iconImage ? (
+                        <img
+                          src={activeApp.iconImage}
+                          srcSet={activeApp.iconSrcSet}
+                          sizes="80px"
+                          alt={activeApp.title}
+                          className="w-full h-full object-contain rounded-xl"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <activeApp.icon className="w-8 h-8 text-primary" />
+                      )}
+                    </div>
+                    <div>
+                      <h3 className="heading-md text-primary mb-2">{activeApp.title}</h3>
+                      <p className="text-gray-700 leading-relaxed">{activeApp.description}</p>
+                    </div>
+                  </div>
+
+                  <div className="grid sm:grid-cols-2 gap-3">
+                    {activeApp.platforms.map((p) => {
+                      const PIcon = p.icon;
+                      return (
+                        <a
+                          key={p.name}
+                          href={p.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group rounded-xl border border-accent/20 bg-accent text-white px-4 py-3 font-semibold hover:bg-red-600 transition-all duration-300"
+                        >
+                          <span className="flex items-center justify-between gap-3">
+                            <span className="inline-flex items-center gap-2">
+                              <PIcon />
+                              {p.name}
+                            </span>
+                            <Download className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
+                          </span>
+                          <span className="mt-1 block text-xs text-white/80">
+                            Baixar para {p.name}
+                          </span>
+                        </a>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* FEATURES */}
-      <section className="container py-16 grid md:grid-cols-3 gap-8">
-        {features.map((f, i) => {
-          const Icon = f.icon;
-          return (
-            <div
-              key={i}
-              className="bg-white shadow-md rounded-xl p-8 text-center hover:shadow-xl transition-shadow duration-300"
-            >
-              <div className="w-14 h-14 mx-auto rounded-lg bg-blue-50 flex items-center justify-center mb-4">
-                <Icon className="w-6 h-6 text-blue-600" />
-              </div>
-              <h3 className="font-semibold text-primary mb-2">{f.title}</h3>
-              <p className="text-gray-700 text-sm">{f.text}</p>
-            </div>
-          );
-        })}
+      <section className="section bg-gray-50">
+        <div className="container">
+          <div className="text-center mb-12">
+            <h2 className="heading-xl text-primary mb-4">
+              Vantagens dos <span className="text-accent">Apps Lock</span>
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {features.map((f, i) => {
+              const Icon = f.icon;
+              return (
+                <div
+                  key={i}
+                  className="card text-center"
+                >
+                  <div className="w-14 h-14 mx-auto rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                    <Icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="heading-md text-primary mb-2">{f.title}</h3>
+                  <p className="text-gray-700 text-sm">{f.text}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </section>
 
       {/* FAQ */}
-      <section className="container py-16">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-primary mb-10">
-            Perguntas <span className="text-red-600">Frequentes</span>
-          </h2>
-          <div className="space-y-4 text-left">
-            {faqs.map((faq, i) => (
-              <FAQItem key={i} faq={faq} />
-            ))}
+      <section className="section bg-white">
+        <div className="container">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="heading-xl text-primary mb-10">
+              Perguntas <span className="text-accent">Frequentes</span>
+            </h2>
+            <div className="space-y-4 text-left">
+              {faqs.map((faq, i) => (
+                <FAQItem key={i} faq={faq} />
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* CTA FINAL */}
-      <section className="bg-gray-100 py-16 text-center shadow-inner">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold text-primary mb-4">
-            Tenha a <span className="text-red-600">Lock Proteção</span> sempre com você
-          </h2>
-          <p className="text-gray-700 mb-8">
-            Baixe os aplicativos e aproveite todos os benefícios da nossa
-            plataforma: assistência 24h, atualizações em tempo real e suporte direto.
-          </p>
-          <button
-            onClick={() =>
-              window.open(
-                "https://play.google.com/store/apps/developer?id=Lock+Proteção",
-                "_blank"
-              )
-            }
-            className="inline-flex items-center gap-2 px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-md transition"
-          >
-            <ArrowRight className="h-5 w-5" />
-            Ver Todos os Aplicativos
-          </button>
+      <section className="section bg-gradient-primary text-white">
+        <div className="container">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="heading-xl mb-4">
+              Tenha a <span className="text-accent">Lock Proteção</span> sempre com você
+            </h2>
+            <p className="opacity-90 mb-8 text-lg">
+              Baixe os aplicativos e aproveite assistência 24h, atualizações em tempo real e suporte direto.
+            </p>
+            <button
+              onClick={() =>
+                window.open(
+                  "https://play.google.com/store/apps/developer?id=Lock+Proteção",
+                  "_blank"
+                )
+              }
+              className="btn-accent inline-flex items-center gap-2"
+            >
+              <ArrowRight className="h-5 w-5" />
+              Ver Todos os Aplicativos
+            </button>
+          </div>
         </div>
       </section>
-
-      {/* FOOTER */}
-      <footer className="bg-blue-700 text-white py-10 text-center">
-        <p className="font-semibold text-lg mb-4">
-          Precisa de ajuda com os aplicativos?
-        </p>
-        <a
-          href="https://wa.me/558440420869?text=Ol%C3%A1%2C%20preciso%20de%20ajuda%20com%20os%20aplicativos%20da%20Lock."
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white text-blue-700 font-semibold shadow-md hover:bg-gray-100 transition"
-        >
-          <Smartphone className="w-5 h-5" />
-          Suporte via WhatsApp
-        </a>
-      </footer>
     </main>
   );
 };

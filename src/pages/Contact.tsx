@@ -1,6 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { Phone, Mail, MapPin, Clock, MessageCircle, Send, CheckCircle } from 'lucide-react';
-import { loadLeafletCSS } from '../utils/lazyLoadLeaflet';
+import React, { useState } from 'react';
+import {
+  Phone,
+  Clock,
+  MessageCircle,
+  Send,
+  CheckCircle,
+  AlertTriangle,
+  Calculator,
+  CreditCard,
+  ArrowRight,
+} from 'lucide-react';
+
+const subjectDetails: Record<string, { label: string; guidance: string }> = {
+  quote: {
+    label: 'Solicitar Cotação',
+    guidance: 'Ideal para novos planos, adesão e comparação de coberturas.'
+  },
+  support: {
+    label: 'Suporte Técnico',
+    guidance: 'Ideal para dúvidas de app, acesso e orientações operacionais.'
+  },
+  claim: {
+    label: 'Acionar Proteção',
+    guidance: 'Use para ocorrências e acionamentos com prioridade de atendimento.'
+  },
+  billing: {
+    label: 'Questões Financeiras',
+    guidance: 'Use para segunda via, pendências e informações de pagamento.'
+  },
+  suggestion: {
+    label: 'Sugestões',
+    guidance: 'Use para enviar melhorias e feedback sobre nosso atendimento.'
+  },
+  other: {
+    label: 'Outros',
+    guidance: 'Use quando seu assunto não se enquadrar nas opções acima.'
+  }
+};
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -10,13 +46,83 @@ const Contact: React.FC = () => {
     subject: '',
     message: ''
   });
-  
+
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Lazy load Leaflet CSS apenas quando página Contact é renderizada
-  useEffect(() => {
-    loadLeafletCSS();
-  }, []);
+  const officialHours = [
+    { day: 'Segunda a Quinta', hours: '08:00 às 18:00' },
+    { day: 'Sexta', hours: '08:00 às 17:00' },
+    { day: 'Sábado', hours: '08:00 às 12:00' },
+    { day: 'Domingo', hours: 'Plantão de emergência (0800 591 8701)' }
+  ];
+
+  const contactChannels = [
+    {
+      icon: AlertTriangle,
+      title: 'Emergências e Sinistros',
+      purpose: 'Guincho, pane, colisão, chaveiro e ocorrências urgentes',
+      value: '0800 591 8701',
+      link: 'tel:08005918701',
+      hours: '24h, inclusive domingos e feriados',
+      color: 'bg-accent'
+    },
+    {
+      icon: MessageCircle,
+      title: 'WhatsApp Comercial',
+      purpose: 'Cotações, adesão, dúvidas gerais e acompanhamento',
+      value: '(84) 4042-0869',
+      link: 'https://wa.me/558440420869?text=Olá!%20Preciso%20de%20atendimento%20comercial%20da%20Lock.',
+      hours: 'Seg-Qui 08h-18h | Sex 08h-17h | Sáb 08h-12h',
+      color: 'bg-green-500'
+    },
+    {
+      icon: Phone,
+      title: 'Emergências e Sinistros (Canal 2)',
+      purpose: 'Canal secundário para ocorrências urgentes e apoio emergencial',
+      value: '0800 879 2604',
+      link: 'tel:08008792604',
+      hours: '24h, inclusive domingos e feriados',
+      color: 'bg-primary'
+    }
+  ];
+
+  const intentCards = [
+    {
+      icon: AlertTriangle,
+      title: 'Preciso de ajuda urgente',
+      description: 'Use para emergências com seu veículo ou acionamento imediato da proteção.',
+      recommended: 'Canal recomendado: 0800 591 8701 (24h)',
+      actionLabel: 'Ligar Agora',
+      actionLink: 'tel:08005918701',
+      actionClass: 'btn-accent'
+    },
+    {
+      icon: Calculator,
+      title: 'Quero cotar ou contratar',
+      description: 'Use para novos planos, dúvidas de cobertura e proposta personalizada.',
+      recommended: 'Canal recomendado: WhatsApp Comercial',
+      actionLabel: 'Abrir WhatsApp',
+      actionLink: 'https://wa.me/558440420869?text=Olá!%20Quero%20fazer%20uma%20cotação%20com%20a%20Lock.',
+      actionClass: 'btn-primary'
+    },
+    {
+      icon: CreditCard,
+      title: 'Tenho assunto financeiro',
+      description: 'Use para boletos, pagamentos, pendências e solicitações financeiras.',
+      recommended: 'Canal recomendado: Formulário (setor financeiro)',
+      actionLabel: 'Ir para Formulário',
+      actionLink: '#formulario-contato',
+      actionClass: 'btn-outline2'
+    }
+  ];
+
+  const emergencyServices = [
+    'Guincho 24 horas',
+    'Assistência elétrica',
+    'Troca de pneu',
+    'Pane seca',
+    'Bateria descarregada'
+  ];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -26,164 +132,168 @@ const Contact: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const numbers = {
-      billing: ['5584986639591', '5584987756889', '5584981677829'],
-      quote: ['558440420869'],
-      support: ['5584981331131', '5584981761133'],
-      claim: ['558481161997'],
-      other: ['558440420869'],
-      suggestion: ['558440420869']
+    const weightedTargets = {
+      billing: [
+        { phone: '5584981677829', weight: 45 }, // Gleysiane
+        { phone: '5584986639591', weight: 45 }, // Geovanna
+        { phone: '5584987756889', weight: 10 }, // Isabelle (baixo volume)
+      ],
+      support: [
+        { phone: '5584981761133', weight: 85 }, // Ysac
+        { phone: '5584981331131', weight: 15 }, // Lucas (baixo volume)
+      ],
+      claim: [
+        { phone: '5584981761133', weight: 85 },
+        { phone: '5584981331131', weight: 15 },
+      ],
+      quote: [
+        { phone: '558440420869', weight: 100 },
+      ],
+      suggestion: [
+        { phone: '558440420869', weight: 100 },
+      ],
+      other: [
+        { phone: '558440420869', weight: 100 },
+      ]
     };
 
-    // pega a lista de números do assunto selecionado
-    const selectedList = numbers[formData.subject as keyof typeof numbers] || numbers.other;
+    const chooseWeightedPhone = (pool: Array<{ phone: string; weight: number }>) => {
+      const totalWeight = pool.reduce((acc, item) => acc + item.weight, 0);
+      let randomWeight = Math.random() * totalWeight;
 
-    // escolhe um número aleatório se houver mais de um
-    const phone = selectedList[Math.floor(Math.random() * selectedList.length)];
-
-    // cria a mensagem formatada
-    const subjectText = (() => {
-      switch (formData.subject) {
-        case 'billing': return 'Questões Financeiras';
-        case 'quote': return 'Solicitar Cotação';
-        case 'support': return 'Suporte Técnico';
-        case 'claim': return 'Acionar Proteção';
-        case 'suggestion': return 'Sugestão';
-        default: return 'Outros';
+      for (const item of pool) {
+        randomWeight -= item.weight;
+        if (randomWeight <= 0) return item.phone;
       }
-    })();
+
+      return pool[0].phone;
+    };
+
+    const selectedPool = weightedTargets[formData.subject as keyof typeof weightedTargets] || weightedTargets.other;
+    const phone = chooseWeightedPhone(selectedPool);
+    const subjectText = subjectDetails[formData.subject]?.label || 'Outros';
 
     const message = `
-      *Nova Mensagem via Site - Lock Proteção*
-      --------------------------------------
-      *Nome:* ${formData.name}
-      *E-mail:* ${formData.email}
-      *Telefone:* ${formData.phone}
-      *Assunto:* ${subjectText}
-      *Mensagem:* 
-      ${formData.message}
-      --------------------------------------
-      Mensagem enviada pelo site 🌐
-      `;
+*Nova Mensagem via Site - Lock Proteção*
+--------------------------------------
+*Nome:* ${formData.name}
+*E-mail:* ${formData.email}
+*Telefone:* ${formData.phone}
+*Assunto:* ${subjectText}
+*Mensagem:*
+${formData.message}
+--------------------------------------
+Mensagem enviada pelo site 🌐
+`;
 
-    // abre o WhatsApp com a mensagem
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
 
-    // limpa formulário e mostra mensagem de sucesso
-    setTimeout(() => {
-      setIsSubmitted(true);
-      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-    }, 800);
+    setIsSubmitted(true);
+    setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
   };
-
-  const openWhatsApp = () => {
-    const phone = '558440420869';
-    const message = 'Olá! Gostaria de entrar em contato com a Lock Proteção.';
-    const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-    window.open(url, '_blank');
-  };
-
-  const contactMethods = [
-    {
-      icon: Phone,
-      title: 'Assistência 24h (1)',
-      description: 'Central de Atendimento Principal',
-      value: '0800 591 8701',
-      link: 'tel:+08005918701',
-      color: 'bg-red-500'
-    },
-    {
-      icon: Phone,
-      title: 'Assistência 24h (2)',
-      description: 'Central de Atendimento Secundária',
-      value: '0800 879 2604',
-      link: 'tel:+08008792604',
-      color: 'bg-yellow-500'
-    },
-    {
-      icon: MessageCircle,
-      title: 'WhatsApp',
-      description: 'Atendimento Comercial WhatsApp',
-      value: '(84) 4042-0869',
-      link: '#',
-      color: 'bg-green-500',
-      action: openWhatsApp
-    },
-    {
-      icon: MapPin,
-      title: 'Endereço',
-      description: 'Sede Principal',
-      value: 'Avenida Prudente de Morais, 2700, Loja 01 - Lagoa Seca, Natal - RN, 59022-305',
-      link: 'https://maps.app.goo.gl/k4jirZGmuRBoj2Ci6',
-      color: 'bg-blue-500'
-    }
-  ];
-
-  const officeHours = [
-    { day: 'Segunda a Quinta', hours: '08:00 às 18:00' },
-    { day: 'Sexta', hours: '08:00 às 17:00' },
-    { day: 'Sábado', hours: '08:00 às 12:00' },
-    { day: 'Domingo', hours: 'Plantão 24h (Emergências)' }
-  ];
-
-  const emergencyServices = [
-    'Guincho 24 horas',
-    'Assistência elétrica',
-    'Troca de pneu',
-    'Chaveiro 24h',
-    'Pane seca',
-    'Bateria descarregada'
-  ];
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
+    <div className="min-h-screen bg-gray-50">
       <section className="bg-gradient-primary text-white pt-32 pb-16">
         <div className="container">
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-5xl mx-auto text-center">
+            <p className="font-montserrat font-semibold text-white/90 mb-4 tracking-wide uppercase text-sm">
+              Central de Atendimento Lock
+            </p>
             <h1 className="heading-hero mb-6">
-              Entre em <span className="text-accent">Contato</span> Conosco
+              Fale com o canal certo em <span className="text-accent">menos tempo</span>
             </h1>
             <p className="text-xl lg:text-2xl opacity-90 leading-relaxed">
-              Estamos aqui para ajudar você 24 horas por dia, 7 dias por semana. 
-              Fale conosco através do canal de sua preferência.
+              Escolha seu objetivo, veja para que serve cada contato e fale direto com a equipe correta.
             </p>
+
+            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a href="#intencoes" className="btn-accent inline-flex items-center gap-2">
+                Escolher Canal de Atendimento
+                <ArrowRight className="h-5 w-5" />
+              </a>
+              <a href="tel:08005918701" className="btn-outline inline-flex items-center gap-2">
+                Emergência 24h: 0800 591 8701
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Contact Methods */}
       <section className="section bg-white">
         <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-            {contactMethods.map((method, index) => {
-              const IconComponent = method.icon;
+          <div id="intencoes" className="text-center mb-12">
+            <h2 className="heading-xl text-primary mb-4">
+              Como podemos te <span className="text-accent">ajudar hoje</span>?
+            </h2>
+            <p className="text-lg-responsive text-gray-600 max-w-3xl mx-auto">
+              Selecione o tipo de atendimento para falar com o setor certo e ganhar tempo no atendimento.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-14">
+            {intentCards.map((item, index) => {
+              const IconComponent = item.icon;
               return (
-                <div key={index} className="card text-center group cursor-pointer" 
-                     onClick={method.action || (() => window.open(method.link, '_blank'))}>
-                  <div className={`${method.color} w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                    <IconComponent className="h-8 w-8 text-white" />
+                <div key={index} className="bg-gray-50 border border-gray-200 rounded-2xl p-6 h-full flex flex-col">
+                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                    <IconComponent className="h-7 w-7 text-primary" />
                   </div>
-                  <h3 className="heading-md text-text mb-2 group-hover:text-primary transition-colors duration-300">
-                    {method.title}
-                  </h3>
-                  <p className="text-gray-600 mb-2">{method.description}</p>
-                  <p className="font-montserrat font-semibold text-primary group-hover:text-accent transition-colors duration-300">
-                    {method.value}
-                  </p>
+                  <h3 className="heading-md text-text mb-3">{item.title}</h3>
+                  <p className="text-gray-600 mb-4 flex-grow">{item.description}</p>
+                  <p className="text-sm font-montserrat font-semibold text-primary mb-5">{item.recommended}</p>
+                  <a
+                    href={item.actionLink}
+                    target={item.actionLink.startsWith('http') ? '_blank' : undefined}
+                    rel={item.actionLink.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className={`${item.actionClass} inline-flex items-center justify-center gap-2`}
+                  >
+                    {item.actionLabel}
+                  </a>
                 </div>
               );
             })}
           </div>
 
-          {/* Main Content */}
+          <div className="text-center mb-10">
+            <h3 className="heading-lg text-primary mb-3">Canais Principais e Finalidade</h3>
+            <p className="text-gray-600 max-w-3xl mx-auto">
+              Cada canal abaixo está organizado por tipo de atendimento e horário para facilitar sua escolha.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+            {contactChannels.map((channel, index) => {
+              const IconComponent = channel.icon;
+              return (
+                <a
+                  key={index}
+                  href={channel.link}
+                  target={channel.link.startsWith('http') ? '_blank' : undefined}
+                  rel={channel.link.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className="bg-white rounded-2xl p-6 shadow-custom border border-gray-100 hover:shadow-custom-lg transition-all duration-300"
+                >
+                  <div className={`${channel.color} w-14 h-14 rounded-xl flex items-center justify-center mb-4`}>
+                    <IconComponent className="h-7 w-7 text-white" />
+                  </div>
+                  <h4 className="heading-md text-text mb-2">{channel.title}</h4>
+                  <p className="text-gray-600 mb-3">{channel.purpose}</p>
+                  <p className="font-montserrat font-semibold text-primary mb-2">{channel.value}</p>
+                  <p className="text-sm text-gray-500">{channel.hours}</p>
+                </a>
+              );
+            })}
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div className="bg-gray-50 rounded-3xl p-8">
-              <h2 className="heading-lg text-primary mb-8">
+            <div id="formulario-contato" className="bg-gray-50 rounded-3xl p-8 border border-gray-100">
+              <h2 className="heading-lg text-primary mb-2">
                 Envie sua <span className="text-accent">Mensagem</span>
               </h2>
+              <p className="text-gray-600 mb-6">
+                Ao enviar, o sistema direciona automaticamente para o setor responsável no WhatsApp, sem expor contatos internos.
+              </p>
 
               {!isSubmitted ? (
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -213,7 +323,7 @@ const Contact: React.FC = () => {
                         required
                       />
                     </div>
-                    
+
                     <div>
                       <label className="form-label">Telefone *</label>
                       <input
@@ -247,6 +357,17 @@ const Contact: React.FC = () => {
                     </select>
                   </div>
 
+                  {formData.subject && (
+                    <div className="bg-primary/5 border border-primary/10 rounded-xl p-4">
+                      <p className="text-sm font-montserrat font-semibold text-primary mb-1">
+                        {subjectDetails[formData.subject]?.label}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        {subjectDetails[formData.subject]?.guidance}
+                      </p>
+                    </div>
+                  )}
+
                   <div>
                     <label className="form-label">Mensagem *</label>
                     <textarea
@@ -255,7 +376,7 @@ const Contact: React.FC = () => {
                       onChange={handleInputChange}
                       rows={5}
                       className="form-input resize-none"
-                      placeholder="Descreva sua mensagem..."
+                      placeholder="Descreva sua solicitação para agilizar o atendimento..."
                       required
                     ></textarea>
                   </div>
@@ -265,17 +386,17 @@ const Contact: React.FC = () => {
                     className="btn-accent w-full flex items-center justify-center space-x-2"
                   >
                     <Send className="h-5 w-5" />
-                    <span>Enviar Mensagem</span>
+                    <span>Enviar e Abrir WhatsApp</span>
                   </button>
                 </form>
               ) : (
                 <div className="text-center py-12">
                   <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
                   <h3 className="heading-md text-green-600 mb-4">
-                    Mensagem Enviada com Sucesso!
+                    Mensagem preparada com sucesso!
                   </h3>
                   <p className="text-gray-600 mb-6">
-                    Obrigado pelo contato! Nossa equipe analisará sua mensagem e retornará em breve.
+                    Seu WhatsApp foi aberto com os dados preenchidos para agilizar seu atendimento.
                   </p>
                   <button
                     onClick={() => setIsSubmitted(false)}
@@ -287,39 +408,36 @@ const Contact: React.FC = () => {
               )}
             </div>
 
-            {/* Additional Information */}
             <div className="space-y-8">
-              {/* Office Hours */}
-              <div className="bg-white rounded-2xl p-6 shadow-lg">
+              <div className="bg-white rounded-2xl p-6 shadow-custom border border-gray-100">
                 <div className="flex items-center space-x-3 mb-6">
                   <div className="bg-primary p-3 rounded-full">
                     <Clock className="h-6 w-6 text-white" />
                   </div>
                   <h3 className="heading-md text-primary">Horários de Atendimento</h3>
                 </div>
-                
+
                 <div className="space-y-4">
-                  {officeHours.map((schedule, index) => (
-                    <div key={index} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
+                  {officialHours.map((schedule, index) => (
+                    <div key={index} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0 gap-4">
                       <span className="font-montserrat font-medium text-gray-700">{schedule.day}</span>
-                      <span className="text-primary font-semibold">{schedule.hours}</span>
+                      <span className="text-primary font-semibold text-right">{schedule.hours}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className="mt-6 bg-accent/10 rounded-xl p-4">
+                <div className="mt-6 bg-accent/10 rounded-xl p-4 border border-accent/20">
                   <p className="text-accent font-montserrat font-semibold text-center">
-                    🚨 Emergências: Atendimento 24h via WhatsApp
+                    Emergência: use 0800 591 8701 para atendimento imediato.
                   </p>
                 </div>
               </div>
 
-              {/* Emergency Services */}
-              <div className="bg-white rounded-2xl p-6 shadow-lg">
+              <div className="bg-white rounded-2xl p-6 shadow-custom border border-gray-100">
                 <h3 className="heading-md text-primary mb-6">
                   Serviços de <span className="text-accent">Emergência 24h</span>
                 </h3>
-                
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {emergencyServices.map((service, index) => (
                     <div key={index} className="flex items-center space-x-3 p-2">
@@ -330,18 +448,26 @@ const Contact: React.FC = () => {
                 </div>
 
                 <div className="mt-6">
-                  <button
-                    onClick={openWhatsApp}
-                    className="btn-accent w-full flex items-center justify-center space-x-2"
-                  >
-                    <MessageCircle className="h-5 w-5" />
-                    <span>Acionar Emergência</span>
-                  </button>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <a
+                      href="tel:08005918701"
+                      className="btn-accent w-full flex items-center justify-center space-x-2"
+                    >
+                      <Phone className="h-5 w-5" />
+                      <span>Ligar 0800 591 8701</span>
+                    </a>
+                    <a
+                      href="tel:08008792604"
+                      className="btn-primary w-full flex items-center justify-center space-x-2"
+                    >
+                      <Phone className="h-5 w-5" />
+                      <span>Ligar 0800 879 2604</span>
+                    </a>
+                  </div>
                 </div>
               </div>
 
-              {/* Map (Corrigido) */}
-              <div className="bg-white rounded-2xl p-6 shadow-lg relative z-0">
+              <div className="bg-white rounded-2xl p-6 shadow-custom border border-gray-100 relative z-0">
                 <h3 className="heading-md text-primary mb-6">Nossa Localização</h3>
 
                 <div className="rounded-xl overflow-hidden mb-4 h-64">
@@ -365,7 +491,7 @@ const Contact: React.FC = () => {
                   href="https://maps.app.goo.gl/k4jirZGmuRBoj2Ci6"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-accent w-full text-center block"
+                  className="btn-primary w-full text-center block"
                 >
                   Ver no Google Maps
                 </a>
@@ -375,31 +501,38 @@ const Contact: React.FC = () => {
         </div>
       </section>
 
-      {/* FAQ Section */}
       <section className="section bg-gray-50">
         <div className="container">
           <div className="max-w-4xl mx-auto">
             <h2 className="heading-xl text-center text-primary mb-12">
-              Perguntas <span className="text-accent">Frequentes</span>
+              Dúvidas <span className="text-accent">Frequentes</span>
             </h2>
-            
+
             <div className="space-y-6">
               {[
                 {
                   question: 'Como entro em contato em caso de emergência?',
-                  answer: 'Para emergências, utilize nosso 0800 24h: 0800 591 8701 ou 0800 879 2604. Nossa equipe responde imediatamente e direciona o atendimento necessário.'
+                  answer: 'Use o 0800 591 8701, disponível 24h. Esse canal é exclusivo para ocorrências urgentes como pane, colisão e guincho.'
                 },
                 {
-                  question: 'Qual o prazo de resposta para dúvidas gerais?',
-                  answer: 'Respondemos todas as mensagens em até 2 horas úteis. Para questões urgentes, recomendamos o contato direto via telefone ou WhatsApp.'
+                  question: 'Quando devo usar o WhatsApp comercial?',
+                  answer: 'Use o WhatsApp para cotação, contratação, dúvidas gerais e acompanhamento. O atendimento ocorre em horário comercial informado na página.'
                 },
                 {
-                  question: 'Posso alterar meus dados cadastrais pelo site?',
-                  answer: 'Algumas alterações podem ser feitas pelo app. Para mudanças mais complexas, entre em contato conosco pelos canais disponíveis.'
+                  question: 'Para que serve o atendimento administrativo?',
+                  answer: 'Assuntos administrativos são tratados por roteamento interno via formulário para os setores de financeiro e rastreamento.'
                 },
                 {
                   question: 'Como funciona o atendimento aos finais de semana?',
-                  answer: 'Aos sábados funcionamos das 9h às 14h. Domingos temos plantão 24h apenas para emergências via WhatsApp.'
+                  answer: 'No sábado, o atendimento comercial e administrativo funciona das 08:00 às 12:00. No domingo, permanece apenas o plantão de emergência pelo 0800 591 8701.'
+                },
+                {
+                  question: 'Existe mais de um canal de emergência?',
+                  answer: 'Sim. Você pode acionar emergência pelos números 0800 591 8701 e 0800 879 2604, ambos com atendimento 24h.'
+                },
+                {
+                  question: 'O formulário envia e-mail?',
+                  answer: 'Não. O formulário organiza suas informações e abre o WhatsApp do setor responsável para agilizar a conversa com nossa equipe.'
                 }
               ].map((faq, index) => (
                 <div key={index} className="bg-white rounded-xl p-6 shadow-lg">

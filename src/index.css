@@ -164,6 +164,9 @@
   .whatsapp-pulse { animation: whatsappPulse 2s infinite; }
   @keyframes whatsappPulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
 
+  .animate-card-pulse { animation: cardPulse 2s infinite; }
+  @keyframes cardPulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.06);} }
+
   /* Loading dots */
   .loading-dots::after {
     content: '';
